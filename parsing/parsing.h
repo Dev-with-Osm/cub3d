@@ -1,41 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/10 13:12:34 by okhourss          #+#    #+#             */
-/*   Updated: 2025/09/10 15:06:59 by okhourss         ###   ########.fr       */
+/*   Created: 2025/09/10 14:46:43 by okhourss          #+#    #+#             */
+/*   Updated: 2025/09/10 14:49:21 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#ifndef PARSING_H
+#define PARSING_H
 
-int check_file_perm(char *file_name)
-{
-	// int fd = open(file_name, )
-}
+# include <unistd.h>
+# include <stdio.h>
+# include <fcntl.h>
 
-int ft_parsing(char *file_name)
-{
-	check_file_perm(file_name);
-	return 0;
-}
 
-int main(int argc, char const *argv[])
-{
-	if (argc != 2)
-		return 1;
-	ft_parsing(argv[1]);
-	int i = 0;
-	while (argv[i])
-	{
-		printf("%s\n", argv[i]);
-		i++;
-	}
-	
-	// int fd = open()
-	return 0;
-}
-
+#endif
