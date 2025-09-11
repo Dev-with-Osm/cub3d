@@ -1,8 +1,8 @@
 NAME = cube3d
-SRCS = parsing/parsing.c
+SRCS = parsing/parsing.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
 OBJS = $(SRCS:.c=.o)
 CC = cc
-CFLAGS = -Wall -Wextra #-Werror
+CFLAGS = -Wall -g -Wextra #-Werror
 
 all: $(NAME)
 
