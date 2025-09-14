@@ -1,0 +1,61 @@
+// void draw_vertical_wall_line(t_game *game, int x, int y_start, int y_end, int color)
+// {
+//     int y = y_start;
+//     while (y < y_end)
+//     {
+//         put_pixel_safe(game, x, y, color);
+//         y++;
+//     }
+// }
+// double cast_ray_distance(t_game *game, double ray_angle)
+// {
+//     game->ray->ray_x = game->player->pp_x;  // Start at player position
+//     game->ray->ray_y = game->player->pp_y;
+    
+//     game->ray->ray_dir_x = cos(ray_angle);
+//     game->ray->ray_dir_y = sin(ray_angle);
+    
+//     double step_size = 0.05;  // Same as your steep_size
+//     double distance = 0;
+    
+//     while (distance < game->max_distance)
+//     {
+//         // Move ray forward
+//         game->ray->ray_x += game->ray->ray_dir_x * step_size;
+//         game->ray->ray_y += game->ray->ray_dir_y * step_size;
+//         distance += step_size;
+        
+//         // Check if we hit a wall
+//         if (is_wall(game, game->ray->ray_x, game->ray->ray_y))
+//             return distance;  // Return distance when wall is hit
+//     }
+    
+//     return game->max_distance;  // Return max distance if no wall found
+// }
+// void render_3d_walls(t_game *game)
+// {
+//     double FOV = DEG_TO_RAD(FOV_DEGREES);
+//     int column = 0;
+    
+//     while (column < game->screenWidth)
+//     {
+//         // Calculate ray angle for this screen column
+//         game->ray->ray_angle = game->player->player_angle - (FOV/2) + 
+//                           (column * FOV / game->screenWidth);
+        
+//         // Cast ray and get wall distance
+//         game->wall->wall_distance = cast_ray_distance(game, game->ray->ray_angle);
+        
+//         // Calculate wall height on screen
+//         game->wall->wall_height = (int)((game->screenHeight * WALL_HEIGHT_MULTIPLIER) / game->wall->wall_distance);
+        
+//         // Calculate wall bounds
+//         game->wall->wall_start = (game->screenHeight - game->wall->wall_height) / 2;
+//         game->wall->wall_end = game->wall->wall_start + game->wall->wall_height;
+        
+//         // Draw vertical wall line
+//         draw_vertical_wall_line(game, column, game->wall->wall_start, game->wall->wall_end, WHITE);
+        
+//         column++;
+//     }
+// }

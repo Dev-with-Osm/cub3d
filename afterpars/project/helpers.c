@@ -17,6 +17,8 @@ int is_wall(t_game *game, double new_x, double new_y)
     int x = new_x;
     int y = new_y;
 
+    if (x < 0 || y < 0 || x >= game->map_W || y >= game->map_H)
+        return 1; 
     return(game->map[y][x] == '1');
 }
 
@@ -42,6 +44,7 @@ void movement(t_game *game, double *new_x, double *new_y, int check_dir)
         *new_x = game->player->pp_x + cos(game->player->player_angle + PI/2) * MOVE_SPEED;
         *new_y = game->player->pp_y + sin(game->player->player_angle + PI/2) * MOVE_SPEED;
     }
+    
     if (!is_wall(game, *new_x, *new_y)) 
     {
             game->player->pp_x = *new_x;
@@ -57,18 +60,26 @@ int key_handler(int keycode, t_game *game)
 
     if (keycode == KEY_ESC)
         close_window(game);
-    else if (keycode == KEY_W || keycode == ARROW_UP)
+    else if (keycode == KEY_W)
         movement(game, &new_x, &new_y, 1);
-    else if (keycode == KEY_S || keycode == ARROW_DOWN)
+    else if (keycode == KEY_S)
         movement(game, &new_x, &new_y, 2);
     else if (keycode == KEY_A)
         movement(game, &new_x, &new_y, 3);     
     else if (keycode == KEY_D)
         movement(game, &new_x, &new_y, 4);
-    else if (keycode == KEY_LEFT)
+    else if (keycode == KEY_LEFT) {
         game->player->player_angle -= ROTATION_SPEED;
-    else if (keycode == KEY_RIGHT)
+        // Normalize angle
+        if (game->player->player_angle < 0)
+            game->player->player_angle += 2 * PI;
+    }
+    else if (keycode == KEY_RIGHT) {
         game->player->player_angle += ROTATION_SPEED;
+        // Normalize angle  
+        if (game->player->player_angle >= 2 * PI)
+            game->player->player_angle -= 2 * PI;
+    }
     return 0;
 }
 
@@ -103,7 +114,7 @@ void set_player_direction(char c, t_game *game)
     else if(c == 'W')
         game->player->player_angle = DEG_TO_RAD(180);
     else if(c == 'S')
-        game->player->player_angle = DEG_TO_RAD(270);
-    else if(c == 'N')
         game->player->player_angle = DEG_TO_RAD(90);
+    else if(c == 'N')
+        game->player->player_angle = DEG_TO_RAD(270);
 }

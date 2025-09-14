@@ -1,3 +1,4 @@
+
 #include "cube.h"
 
 t_addr_lst	**get_garbage_collecter(void)
@@ -57,7 +58,7 @@ void	ft_lstc(t_addr_lst **lst)
 	exit(-1);
 }
 
-void	*g_malloc(size_t size)
+void	*w_malloc(size_t size)
 {
 	void		*ptr;
 	t_addr_lst	**lst;

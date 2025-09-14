@@ -7,7 +7,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>
-// # include "get_next_line/get_next_line.h"
+# include "get_next_line/get_next_line.h"
 // # include "libft/libft.h"
 #ifdef __APPLE__
 #include "mlx/mlx.h"
@@ -17,11 +17,11 @@
 #endif
 
 #define PI 3.14159265358979323846264338327950288
-#define NUM_RAYS 60
+#define NUM_RAYS 3100
 #define FOV_DEGREES 60
 #define tile 72
-#define DEG_TO_RAD(deg) ((deg) * PI / 180.0)
-#define WALL_HEIGHT_MULTIPLIER 64
+#define DEG_TO_RAD(deg) ((deg) * PI / 180.0) // used to just test things, will be removed later
+#define WALL_HEIGHT_MULTIPLIER 1.0
 #define RED     0xFF0000    // Pure red
 #define GREEN   0x00FF00    // Pure green  
 #define BLUE    0x0000FF    // Pure blue
@@ -44,8 +44,8 @@
 # define ARROW_UP 65362
 # define ARROW_DOWN 65364
 
-#define MOVE_SPEED 0.2
-#define ROTATION_SPEED 0.3
+#define MOVE_SPEED 0.17899999
+#define ROTATION_SPEED 0.17899999
 
 typedef struct s_addr_lst
 {
@@ -71,10 +71,10 @@ typedef struct s_player
 
 typedef struct s_wall
 {
-	int				wall_end; // check if double is needed instead of int
-	int				wall_start; // check if double is needed instead of int
+	double				wall_end; // check if double is needed instead of int
+	double				wall_start; // check if double is needed instead of int
 	double			wall_distance;
-	int				wall_height; // check if double is needed instead of int
+	double				wall_height; // check if double is needed instead of int
 
 } t_wall;
 
@@ -124,7 +124,7 @@ t_game	*tmap(void);
 void set_player_direction(char c, t_game *game);
 void put_pixel_safe(t_game *game, int x, int y, int color);
 int close_window(t_game *game);
-void	*g_malloc(size_t size);
+void	*w_malloc(size_t size);
 void	ft_lstc(t_addr_lst **lst);
 t_addr_lst	**get_garbage_collecter(void);
 

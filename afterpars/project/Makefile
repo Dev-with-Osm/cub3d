@@ -1,7 +1,6 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address
-SRC = main.c  sp.c draw.c helpers.c
-# drawing.c wall.c utils.c ft_split_n.c getmp.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c 
+SRC = main.c  draw.c helpers.c  sp.c ft_split_n.c getmp.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c garbage_collecta.c
 UNAME         = $(shell uname)
 
 ifeq ($(UNAME), Linux)

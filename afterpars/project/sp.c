@@ -52,7 +52,7 @@ static int	ft_count(const char *s, char c)
 	return (count);
 }
 
-static void	*ft_free(char **buff, int d)
+static void	*ft_fre(char **buff, int d)
 {
 	while (--d >= 0)
 		free(buff[d]);
@@ -82,7 +82,7 @@ char	**ft_split(char const *s, char c)
 			{
 				buffer[d] = ft_fill(s, &index, c);
 				if (!buffer[d++])
-					return (ft_free(buffer, d));
+					return (ft_fre(buffer, d));
 			}
 		}
 		buffer[d] = 0;

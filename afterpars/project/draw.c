@@ -42,10 +42,10 @@ void draw_map(t_game *game)
     }
 }
 
-void draw_ray(t_game *game, t_player *player, int ray_color)
+void draw_ray(t_game *game, t_player *player, int ray_color) // not needed in the project it's just for  better understanding of the raycasting concept 
 {
     double steep_size;     // Small gameeps for smooth lines
-    double digameance;
+    double distance;
     
     game->ray->ray_x = player->pp_x;  // gameart at player position
     game->ray->ray_y = player->pp_y;
@@ -53,18 +53,18 @@ void draw_ray(t_game *game, t_player *player, int ray_color)
     game->ray->ray_dir_y = sin(game->ray->ray_angle);
     
     steep_size = 0.05;
-    digameance = 0;
-    while (digameance < game->max_distance) {
+    distance = 0;
+    while (distance < game->max_distance) {
         game->ray->ray_x += game->ray->ray_dir_x * steep_size;
         game->ray->ray_y += game->ray->ray_dir_y * steep_size;
-        digameance += steep_size;
+        distance += steep_size;
         // Convert world coordinates to screen pixels
         game->screen_x = (int)(game->ray->ray_x * tile);
         game->screen_y = (int)(game->ray->ray_y * tile);
         // Draw pixel at this ray position
         put_pixel_safe(game, game->screen_x, game->screen_y, ray_color);
         if (is_wall(game, game->ray->ray_x, game->ray->ray_y)) {
-            put_pixel_safe(game, game->screen_x, game->screen_y, GREEN);  // Hit point
+            put_pixel_safe(game, (game->screen_x - 0.5), (game->screen_y - 0.5), BLACK);  // Hit point
             break;
         }       
     }
