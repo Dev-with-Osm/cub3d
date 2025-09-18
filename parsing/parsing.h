@@ -14,6 +14,12 @@
 #define PARSING_H
 
 #include <stddef.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <string.h>
+#include <ctype.h>
+#include <stdio.h>
 
 #include "../get_next_line/get_next_line.h"
 

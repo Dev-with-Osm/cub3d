@@ -11,12 +11,6 @@
 /* ************************************************************************** */
 
 #include "parsing.h"
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <string.h>
-#include <ctype.h>
-#include <stdio.h>
 
 static int is_space(char c)
 {
