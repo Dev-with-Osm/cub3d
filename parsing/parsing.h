@@ -3,63 +3,54 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
+/*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/10 14:46:43 by okhourss          #+#    #+#             */
-/*   Updated: 2025/09/11 17:19:42 by okhourss         ###   ########.fr       */
+/*   Created: 2025/09/18 11:40:11 by okhourss          #+#    #+#             */
+/*   Updated: 2025/09/18 11:40:11 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 #define PARSING_H
 
-# include "../get_next_line/get_next_line.h"
-# include <unistd.h>
-# include <stdio.h>
-# include <fcntl.h>
+#include <stddef.h>
 
-typedef struct s_file
-{
-	char *filename;
-	int	fd;
-	
-} t_file;
+#include "../get_next_line/get_next_line.h"
 
-typedef enum e_phase
+typedef struct s_rgb
 {
-    PH_HEADER,
-    PH_MAP
-}   t_phase;
+	int r;
+	int g;
+	int b;
+} t_rgb;
 
 typedef enum e_tex_id
 {
-	TEX_NO,
+	TEX_NO = 0,
 	TEX_SO,
 	TEX_WE,
 	TEX_EA,
-	// F_RGB,
-	// C_RGB
-}	t_tex_id;
-
-typedef struct s_texmap
-{
-	t_tex_id id;
-	char *path;
-}	t_texmap;
+	TEX_MAX
+} t_tex_id;
 
 typedef struct s_config
 {
-	int fd;
-	t_texmap *north;
-	// t_texmap *north;
-	// t_texmap *north;
-	// t_texmap *north;
-	// todo complete later
+	char *tex[TEX_MAX];
+	int has_tex[TEX_MAX];
+	int floor_set;
+	int ceil_set;
+	t_rgb floor_rgb;
+	t_rgb ceil_rgb;
+	int header_done;
 } t_config;
 
+int parse_tex_line(const char *s, char **out);
+int parse_rgb_line(const char *s, t_rgb *out);
 
-#define EXTENSION_ERR "Invalid file extension (expected .cub)" 
-// #define PERMISION_ERR 1
+int dispatch_header_line(char *line, t_config *cfg);
 
+int parse_header_file(const char *filename, t_config *cfg, char **first_map_line);
+
+void free_config(t_config *cfg);
 
 #endif
