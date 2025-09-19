@@ -287,6 +287,29 @@ void free_config(t_config *cfg)
 	cfg->header_done = 0;
 }
 
+static int is_header_directive_line(const char *line)
+{
+	const char *p;
+
+	p = line;
+	skip_spaces(&p);
+	if (!p || *p == '\0' || *p == '\n')
+		return (0);
+	if (!strncmp(p, "NO", 2) && is_space(p[2]))
+		return (1);
+	if (!strncmp(p, "SO", 2) && is_space(p[2]))
+		return (1);
+	if (!strncmp(p, "WE", 2) && is_space(p[2]))
+		return (1);
+	if (!strncmp(p, "EA", 2) && is_space(p[2]))
+		return (1);
+	if (*p == 'F' && is_space(p[1]))
+		return (1);
+	if (*p == 'C' && is_space(p[1]))
+		return (1);
+	return (0);
+}
+
 // TODO need to fix norminette later
 int parse_header_file(const char *filename, t_config *cfg, char **first_map_line)
 {
@@ -321,6 +344,12 @@ int parse_header_file(const char *filename, t_config *cfg, char **first_map_line
 		}
 		else if (!is_blank(line))
 		{
+			if (is_header_directive_line(line))
+			{
+				free(line);
+				close(fd);
+				return (errmsg("unexpected header directive after header complete"));
+			}
 			if (first_map_line)
 				*first_map_line = strdup(line);
 			free(line);

@@ -1,5 +1,5 @@
 NAME = cube3d
-SRCS = parsing/parsing.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
+SRCS = parsing/parsing.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c main.c
 OBJS = $(SRCS:.c=.o)
 CC = cc
 CFLAGS = -Wall -g -Wextra #-Werror
@@ -7,7 +7,7 @@ CFLAGS = -Wall -g -Wextra #-Werror
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -lmlx -lX11 -lXext -lm -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -lm -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
