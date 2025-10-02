@@ -3,6 +3,7 @@
 
 # include <math.h>
 # include <string.h>
+# include <sys/time.h>
 # include <stdio.h>
 # include <unistd.h>
 # include <fcntl.h>
@@ -17,7 +18,7 @@
 #endif
 
 #define PI 3.14159265358979323846264338327950288
-#define NUM_RAYS 3100
+#define NUM_RAYS 2000
 #define FOV_DEGREES 60
 #define tile 72
 #define DEG_TO_RAD(deg) ((deg) * PI / 180.0) // used to just test things, will be removed later
@@ -44,8 +45,8 @@
 # define ARROW_UP 65362
 # define ARROW_DOWN 65364
 
-#define MOVE_SPEED 0.17899999
-#define ROTATION_SPEED 0.17899999
+#define MOVE_SPEED 0.09998888
+#define ROTATION_SPEED 0.05999
 
 typedef struct s_addr_lst
 {
@@ -62,65 +63,85 @@ typedef struct s_img
     int endian;           // Byte order (usually 0)
 } t_img;
 
+typedef struct s_time
+{
+	long frame_sleep_time;
+	long elapsed_microseconds;
+	double sleep_time;
+
+} t_time;
+
 typedef struct s_player
 {
-	double			pp_x;
-	double			pp_y;
-	double			player_angle;
+	float			pp_x;
+	float			pp_y;
+	float			player_angle;
 } t_player;
 
 typedef struct s_wall
 {
-	double				wall_end; // check if double is needed instead of int
-	double				wall_start; // check if double is needed instead of int
-	double			wall_distance;
-	double				wall_height; // check if double is needed instead of int
+	float				wall_end; // check if float is needed instead of int
+	float				wall_start; // check if float is needed instead of int
+	float			wall_distance;
+	float				wall_height; // check if float is needed instead of int
 
 } t_wall;
 
 typedef struct s_ray
 {
-	double			ray_angle;
-	double			ray_x;
-	double			ray_y;
-	double 			ray_dir_y;
-    double 			ray_dir_x;
+	float			ray_angle;
+	float			ray_x;
+	float			ray_y;
+	float 			ray_dir_y;
+    float 			ray_dir_x;
 } t_ray;
+
+typedef struct s_keys{
+    int w_pressed;
+    int s_pressed;
+    int a_pressed;
+    int d_pressed;
+    int left_pressed;
+    int right_pressed;
+} t_keys;
 
 typedef struct s_game
 {
 	char			**map;
 	int				map_H;
 	int				map_W;
-	double			max_distance;
-	double			fov;
+	float			max_distance;
+	float			fov;
 	int				screen_x;
 	int				screen_y;
-	double			screenWidth;
-	double			screenHeight;
+	float			screenWidth;
+	float			screenHeight;
     void			*mlx_ptr;
     void			*wid_ptr;
-	double			camerax; // to check later if needed
-	double			cameray; // to check later if needed
+	float			camerax; // to check later if needed
+	float			cameray; // to check later if needed
 	struct s_player *player;
 	struct s_wall *wall;
 	struct s_img *img;
 	struct s_ray *ray;
+	struct s_keys *keys;
+	struct s_time *tms;
 }			t_game;
 
 char	**ft_split(char const *s, char c);
 t_img *create_image(t_game *game);
-int is_wall(t_game *game, double new_x, double new_y);
+int is_wall(t_game *game, float new_x, float new_y);
 void draw_player(t_game *game);
 void draw_all_rays(t_game *game);
 void draw_ray(t_game *game, t_player *player, int ray_color);
 void draw_map(t_game *game);
 void clear_image(t_game *game, int color);
 int game_loop(t_game *game);
-int key_handler(int keycode, t_game *game);
+int key_press(int keycode, t_game *game);
+int key_release(int keycode, t_game *game);
+void process_movement(t_game *game);
 char	**ft_split_n(char *s, char c);
 char	*get_map(int fd);
-t_game	*tmap(void);
 void set_player_direction(char c, t_game *game);
 void put_pixel_safe(t_game *game, int x, int y, int color);
 int close_window(t_game *game);

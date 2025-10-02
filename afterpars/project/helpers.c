@@ -12,7 +12,7 @@ int close_window(t_game *game)
     exit(0);
 }
 
-int is_wall(t_game *game, double new_x, double new_y)
+int is_wall(t_game *game, float new_x, float new_y)
 {
     int x = new_x;
     int y = new_y;
@@ -22,8 +22,9 @@ int is_wall(t_game *game, double new_x, double new_y)
     return(game->map[y][x] == '1');
 }
 
-void movement(t_game *game, double *new_x, double *new_y, int check_dir)
+void movement(t_game *game, float *new_x, float *new_y, int check_dir)
 {
+    // Calculate new position based on direction
     if(check_dir == 1)
     {
         *new_x = game->player->pp_x + cos(game->player->player_angle) * MOVE_SPEED;
@@ -45,41 +46,95 @@ void movement(t_game *game, double *new_x, double *new_y, int check_dir)
         *new_y = game->player->pp_y + sin(game->player->player_angle + PI/2) * MOVE_SPEED;
     }
     
+    // Only move if new position is not a wall
     if (!is_wall(game, *new_x, *new_y)) 
     {
-            game->player->pp_x = *new_x;
-            game->player->pp_y = *new_y;
+        game->player->pp_x = *new_x;
+        game->player->pp_y = *new_y;
     }
 }
 
-
-int key_handler(int keycode, t_game *game)
+void process_movement(t_game *game)
 {
-    double new_x;
-    double new_y;
-
-    if (keycode == KEY_ESC)
-        close_window(game);
-    else if (keycode == KEY_W)
-        movement(game, &new_x, &new_y, 1);
-    else if (keycode == KEY_S)
-        movement(game, &new_x, &new_y, 2);
-    else if (keycode == KEY_A)
-        movement(game, &new_x, &new_y, 3);     
-    else if (keycode == KEY_D)
-        movement(game, &new_x, &new_y, 4);
-    else if (keycode == KEY_LEFT) {
+    float move_angle = -1; // -1 means no movement
+    int forward = game->keys->w_pressed - game->keys->s_pressed;  // 1, 0, or -1
+    int strafe = game->keys->d_pressed - game->keys->a_pressed;   // 1, 0, or -1
+    
+    // Determine exact movement angle based on key combination
+    if (forward == 1 && strafe == 0)
+        move_angle = game->player->player_angle; // Forward (0°)
+    else if (forward == 1 && strafe == 1)
+        move_angle = game->player->player_angle + PI/4; // Forward-Right (45°)
+    else if (forward == 0 && strafe == 1)
+        move_angle = game->player->player_angle + PI/2; // Right (90°)
+    else if (forward == -1 && strafe == 1)
+        move_angle = game->player->player_angle + 3*PI/4; // Back-Right (135°)
+    else if (forward == -1 && strafe == 0)
+        move_angle = game->player->player_angle + PI; // Back (180°)
+    else if (forward == -1 && strafe == -1)
+        move_angle = game->player->player_angle + 5*PI/4; // Back-Left (225°)
+    else if (forward == 0 && strafe == -1)
+        move_angle = game->player->player_angle - PI/2; // Left (270°)
+    else if (forward == 1 && strafe == -1)
+        move_angle = game->player->player_angle - PI/4; // Forward-Left (315°)
+    
+    // Apply movement if there's a direction
+    if (move_angle != -1) {
+        float new_x = game->player->pp_x + cos(move_angle) * MOVE_SPEED;
+        float new_y = game->player->pp_y + sin(move_angle) * MOVE_SPEED;
+        
+        if (!is_wall(game, new_x, new_y)) {
+            game->player->pp_x = new_x;
+            game->player->pp_y = new_y;
+        }
+    }
+    
+    // Handle rotation (unchanged)
+    if (game->keys->left_pressed) {
         game->player->player_angle -= ROTATION_SPEED;
-        // Normalize angle
         if (game->player->player_angle < 0)
             game->player->player_angle += 2 * PI;
     }
-    else if (keycode == KEY_RIGHT) {
+    if (game->keys->right_pressed) {
         game->player->player_angle += ROTATION_SPEED;
-        // Normalize angle  
         if (game->player->player_angle >= 2 * PI)
             game->player->player_angle -= 2 * PI;
     }
+}
+
+int key_press(int keycode, t_game *game)
+{
+    if (keycode == KEY_ESC)
+        close_window(game);
+    else if (keycode == KEY_W && !game->keys->w_pressed)
+        game->keys->w_pressed = 1;
+    else if (keycode == KEY_S && !game->keys->s_pressed)
+        game->keys->s_pressed = 1;
+    else if (keycode == KEY_A && !game->keys->a_pressed)
+        game->keys->a_pressed = 1;
+    else if (keycode == KEY_D && !game->keys->d_pressed)
+        game->keys->d_pressed = 1;
+    else if (keycode == KEY_LEFT && !game->keys->left_pressed)
+        game->keys->left_pressed = 1;
+    else if (keycode == KEY_RIGHT && !game->keys->right_pressed)
+        game->keys->right_pressed = 1;
+    return 0;
+}
+
+int key_release(int keycode, t_game *game)
+{
+    if (keycode == KEY_W)
+        game->keys->w_pressed = 0;
+    else if (keycode == KEY_S)
+        game->keys->s_pressed = 0;
+    else if (keycode == KEY_A)
+        game->keys->a_pressed = 0;
+    else if (keycode == KEY_D)
+        game->keys->d_pressed = 0;
+    else if (keycode == KEY_LEFT)
+        game->keys->left_pressed = 0;
+    else if (keycode == KEY_RIGHT)
+        game->keys->right_pressed = 0;
     return 0;
 }
 

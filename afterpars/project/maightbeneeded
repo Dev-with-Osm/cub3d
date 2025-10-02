@@ -7,7 +7,7 @@
 //         y++;
 //     }
 // }
-// double cast_ray_distance(t_game *game, double ray_angle)
+// float cast_ray_distance(t_game *game, float ray_angle)
 // {
 //     game->ray->ray_x = game->player->pp_x;  // Start at player position
 //     game->ray->ray_y = game->player->pp_y;
@@ -15,8 +15,8 @@
 //     game->ray->ray_dir_x = cos(ray_angle);
 //     game->ray->ray_dir_y = sin(ray_angle);
     
-//     double step_size = 0.05;  // Same as your steep_size
-//     double distance = 0;
+//     float step_size = 0.05;  // Same as your steep_size
+//     float distance = 0;
     
 //     while (distance < game->max_distance)
 //     {
@@ -34,7 +34,7 @@
 // }
 // void render_3d_walls(t_game *game)
 // {
-//     double FOV = DEG_TO_RAD(FOV_DEGREES);
+//     float FOV = DEG_TO_RAD(FOV_DEGREES);
 //     int column = 0;
     
 //     while (column < game->screenWidth)

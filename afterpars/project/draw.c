@@ -44,8 +44,8 @@ void draw_map(t_game *game)
 
 void draw_ray(t_game *game, t_player *player, int ray_color) // not needed in the project it's just for  better understanding of the raycasting concept 
 {
-    double steep_size;     // Small gameeps for smooth lines
-    double distance;
+    float steep_size;     // Small gameeps for smooth lines
+    float distance;
     
     game->ray->ray_x = player->pp_x;  // gameart at player position
     game->ray->ray_y = player->pp_y;
@@ -72,7 +72,7 @@ void draw_ray(t_game *game, t_player *player, int ray_color) // not needed in th
 
 void draw_all_rays(t_game *game)
 {
-    double FOV = DEG_TO_RAD(FOV_DEGREES);
+    float FOV = DEG_TO_RAD(FOV_DEGREES);
     int i = 0;
     while ( i < NUM_RAYS)
     {
