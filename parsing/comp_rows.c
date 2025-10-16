@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 11:01:39 by okhourss          #+#    #+#             */
-/*   Updated: 2025/10/15 17:51:15 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/10/16 12:18:57 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,21 @@ static int	count_nonblank_from(char ***buf, int n, int i)
 	return (c);
 }
 
+static void	free_lines_buf_local(char **buf, int n)
+{
+	int	k;
+
+	if (!buf)
+		return ;
+	k = 0;
+	while (k < n)
+	{
+		free(buf[k]);
+		k++;
+	}
+	free(buf);
+}
+
 int	comp_rows(char ***rows, int *h, char ***buf, int n)
 {
 	const char	*s;
@@ -88,7 +103,7 @@ int	comp_rows(char ***rows, int *h, char ***buf, int n)
 	if (drop_leading_blanks(buf, n, &i))
 		return (1);
 	if (find_block_end_and_check_tail(buf, n, i, &j))
-		return (1);
+		return (free_lines_buf_local(*buf, n), 1);
 	c = count_nonblank_from(buf, n, i);
 	*rows = (char **)malloc(sizeof(char *) * c);
 	if (!*rows)

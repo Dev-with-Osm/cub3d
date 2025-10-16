@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 11:15:00 by okhourss          #+#    #+#             */
-/*   Updated: 2025/10/13 13:05:14 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/10/16 12:21:00 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,5 +127,8 @@ int					load_lines(const char *name, t_config *cfg, char ***buf,
 						int *n);
 int					collect_map_lines(int fd, char ***buf, int *n,
 						t_config *cfg);
+
+void				free_lines_buf(char **buf, int n);
+void				free_rows_n(char **rows, int h);
 
 #endif

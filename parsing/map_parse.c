@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 11:57:23 by okhourss          #+#    #+#             */
-/*   Updated: 2025/10/13 13:11:11 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/10/16 12:20:32 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,14 +101,23 @@ int	build_map(t_map *m, char ***buf, int n, t_build *o)
 	if (comp_rows(&m->rows, &o->h, buf, n))
 		return (1);
 	if (pad_rows(&m->rows, &o->h, &o->w))
+	{
+		free_rows_n(m->rows, o->h);
 		return (p_err("malloc failed"));
+	}
 	if (find_player(m->rows, o->h, &p))
-		return (free_map(m), 1);
+	{
+		free_rows_n(m->rows, o->h);
+		return (1);
+	}
 	m->player_dir = p.dir;
 	o->px = p.x;
 	o->py = p.y;
 	if (closed_by_floodfill(m->rows, o->w, o->h))
-		return (free_map(m), 1);
+	{
+		free_rows_n(m->rows, o->h);
+		return (1);
+	}
 	return (0);
 }
 
@@ -125,9 +134,13 @@ int	parse_cub_file(const char *name, t_config *cfg, t_map *m)
 	memset(m, 0, sizeof(*m));
 	memset(cfg, 0, sizeof(*cfg));
 	if (load_lines(name, cfg, &buf, &n))
+	{
+		free_lines_buf(buf, n);
+		free_config(cfg);
 		return (1);
+	}
 	if (build_map(m, &buf, n, &o))
-		return (1);
+		return (free_config(cfg), 1);
 	player_to_floor(m->rows, o.px, o.py);
 	m->width = o.w;
 	m->height = o.h;
