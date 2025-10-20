@@ -1,0 +1,34 @@
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -ggdb 
+SRC = main.c textures.c helpers.c  sp.c ft_split_n.c getmp.c  garbage_collecta.c \
+	get_next_line/get_next_line.c get_next_line/get_next_line_utils.c cast_ray.c textures_utils.c
+UNAME         = $(shell uname)
+
+ifeq ($(UNAME), Linux)
+	LINKERS = -lmlx -lXext -lX11 -lm 
+else
+	LINKERS = -L mlx -lmlx -lm  -framework OpenGL -framework AppKit
+endif
+
+NAME = cube
+OBJ = $(SRC:.c=.o)
+
+all: $(NAME)
+
+$(NAME): $(OBJ) 
+	$(CC) $(CFLAGS) $(OBJ) $(LINKERS) -o $(NAME)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f $(OBJ)
+
+fclean: clean
+	rm -f $(NAME)
+
+re: fclean all
+
+.PHONY: all clean fclean re
+
+.SECONDARY: $(OBJ)

@@ -105,6 +105,17 @@ typedef struct s_keys{
     int right_pressed;
 } t_keys;
 
+typedef struct s_texture
+{
+    void *img_ptr;
+    char *img_data;
+    int bits_per_pixel;
+    int line_length;
+    int endian;
+    int width;
+    int height;
+} t_texture;
+
 typedef struct s_game
 {
 	char			**map;
@@ -126,6 +137,9 @@ typedef struct s_game
 	struct s_ray *ray;
 	struct s_keys *keys;
 	struct s_time *tms;
+    t_texture *wall_texture;
+    t_texture *floor_texture;
+    t_texture *ceiling_texture;
 }			t_game;
 
 char	**ft_split(char const *s, char c);
@@ -148,6 +162,7 @@ int close_window(t_game *game);
 void	*w_malloc(size_t size);
 void	ft_lstc(t_addr_lst **lst);
 t_addr_lst	**get_garbage_collecter(void);
+void load_textures(t_game *game);
 
 // 1st question: m i the one who needs to adress the P in the map using calculations? or it just need to be in the given map as an element 'P'
 #endif
