@@ -167,8 +167,8 @@ int game_loop(t_game *game)
     gettimeofday(&end, NULL);
     game->tms->elapsed_microseconds = (end.tv_sec - start.tv_sec) * 1000000L + 
                                 (end.tv_usec - start.tv_usec);
-    if (game->tms->sleep_time > game->tms->elapsed_microseconds)
-        usleep(game->tms->sleep_time - game->tms->elapsed_microseconds);
+    // if (game->tms->sleep_time > game->tms->elapsed_microseconds)
+    //     usleep(game->tms->sleep_time - game->tms->elapsed_microseconds);
     
     return 0;
 }
@@ -183,7 +183,7 @@ int main(int ac, char **av)
 
     if(ac <= 1)
     {
-        ft_lstc(gc_list); // Cleanup before exit (though list should be empty)
+        ft_lstc(gc_list);
         return 0;
     }
     
@@ -194,11 +194,10 @@ int main(int ac, char **av)
     if(!aloc(game))
     {
         ft_lstc(gc_list);
-        return 0; // aloc failed, memory cleanup already handled by w_malloc/ft_lstc
+        return 0;
     }
     
     // NOTE: Map split/reading must handle its own memory, or use w_malloc.
-    // Assuming ft_split_n/get_map are compatible with standard malloc/free or your w_malloc.
     fd = open(av[1], O_RDONLY);
     game->map = ft_split_n(get_map(fd), '\n');
     getpp(game);
@@ -207,25 +206,31 @@ int main(int ac, char **av)
     game->max_distance = sqrt((game->screenHeight * game->screenHeight) + (game->screenWidth * game->screenWidth));
     game->wid_ptr = mlx_new_window(game->mlx_ptr, game->screenWidth, game->screenHeight, "cub3D Ray Casting");
     
-    // create_image uses malloc internally, but returns a struct allocated by w_malloc if logic is changed.
-    // Assuming create_image is now using w_malloc or we fix it in helpers.c
     game->img = create_image(game); 
 
     // --- TEXTURE LOADING ---
     if (!load_textures(game)) 
     {
         fprintf(stderr, "Fatal Error: Failed to load one or more textures. Check paths.\n");
-        ft_lstc(gc_list); // Use GC for cleanup on critical failure
+        // Ensure MLX textures and GC memory are freed on failure
+        free_mlx_textures(game); 
+        ft_lstc(gc_list);
         return 1; 
     }
 
     mlx_hook(game->wid_ptr, 2, 1L<<0, key_press, game); 
     mlx_hook(game->wid_ptr, 3, 1L<<1, key_release, game);
-    mlx_hook(game->wid_ptr, 17, 0, close_window, game);         // Window close
-    mlx_loop_hook(game->mlx_ptr, game_loop, game);           // Main loop
+    mlx_hook(game->wid_ptr, 17, 0, close_window, game); // Window close
+    mlx_loop_hook(game->mlx_ptr, game_loop, game);       // Main loop
 
     mlx_loop(game->mlx_ptr);
     
-    ft_lstc(gc_list); // Final cleanup
+    // --- FINAL CLEANUP BEFORE EXIT ---
+    // 1. Destroy MLX graphical resources (fixes Valgrind leak)
+    free_mlx_textures(game); 
+
+    // 2. Free all tracked memory (using your garbage collector)
+    ft_lstc(gc_list);
+    // ---------------------------------
     return 0;
 }

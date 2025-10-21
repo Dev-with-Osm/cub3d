@@ -2,16 +2,19 @@
 
 int close_window(t_game *game)
 {
-    // mlx_destroy_image/window are for MLX resources, keep these.
+    // 1. Destroy the current window image and window
     if (game->img && game->img->img_ptr)
         mlx_destroy_image(game->mlx_ptr, game->img->img_ptr);
     if (game->wid_ptr)
         mlx_destroy_window(game->mlx_ptr, game->wid_ptr);
-        
-    // --- GC CALL ---
-    ft_lstc(get_garbage_collecter()); // Clean up all tracked memory
-    // ---------------
-    exit(0); // Exit gracefully after cleanup
+    
+    // 2. Destroy all texture images
+    free_mlx_textures(game); 
+
+    // 3. Clean up all tracked memory
+    ft_lstc(get_garbage_collecter());
+    
+    exit(0);
 }
 
 int is_wall(t_game *game, float new_x, float new_y)
@@ -126,9 +129,9 @@ void process_movement(t_game *game, float delta_time)
 
 int key_press(int keycode, t_game *game)
 {
-    if (keycode == KEY_ESC)
+    if (keycode == KEY_ESC) // Now KEY_ESC is 65307
         close_window(game);
-    else if (keycode == KEY_W && !game->keys->w_pressed)
+    else if (keycode == KEY_W && !game->keys->w_pressed) // Now KEY_W is 119
         game->keys->w_pressed = 1;
     else if (keycode == KEY_S && !game->keys->s_pressed)
         game->keys->s_pressed = 1;
@@ -143,9 +146,10 @@ int key_press(int keycode, t_game *game)
     return 0;
 }
 
+// Similarly, simplify key_release:
 int key_release(int keycode, t_game *game)
 {
-    if (keycode == KEY_W)
+    if (keycode == KEY_W) // Now KEY_W is 119
         game->keys->w_pressed = 0;
     else if (keycode == KEY_S)
         game->keys->s_pressed = 0;

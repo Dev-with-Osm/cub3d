@@ -1,5 +1,26 @@
 #include "cube.h"
 
+// Implementation of MLX image cleanup
+void    free_mlx_textures(t_game *game)
+{
+    if (!game->mlx_ptr || !game->textures)
+        return;
+    
+    // Check and destroy each of the six image pointers created by mlx_xpm_file_to_image
+    if (game->textures->north && game->textures->north->img_ptr)
+        mlx_destroy_image(game->mlx_ptr, game->textures->north->img_ptr);
+    if (game->textures->south && game->textures->south->img_ptr)
+        mlx_destroy_image(game->mlx_ptr, game->textures->south->img_ptr);
+    if (game->textures->east && game->textures->east->img_ptr)
+        mlx_destroy_image(game->mlx_ptr, game->textures->east->img_ptr);
+    if (game->textures->west && game->textures->west->img_ptr)
+        mlx_destroy_image(game->mlx_ptr, game->textures->west->img_ptr);
+    if (game->textures->floor && game->textures->floor->img_ptr)
+        mlx_destroy_image(game->mlx_ptr, game->textures->floor->img_ptr);
+    if (game->textures->ceiling && game->textures->ceiling->img_ptr)
+        mlx_destroy_image(game->mlx_ptr, game->textures->ceiling->img_ptr);
+}
+
 int calculate_shaded_color(int base_color, float distance, int side)
 {
     float brightness = 1.0 - (distance / 12.0); // 12.0 is the depth limit for full darkness

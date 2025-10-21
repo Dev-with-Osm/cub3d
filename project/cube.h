@@ -31,14 +31,14 @@
 #define GRAY    0x808080    // Gray
 #define YELLOW  0xFFFF00    // Yellow (red + green)
 #define PURPLE  0xFF00FF    // Purple (red + blue)
-
-# define KEY_ESC 53
-# define KEY_W 13
-# define KEY_S 1
-# define KEY_A 0
-# define KEY_D 2
-# define KEY_LEFT 123
-# define KEY_RIGHT 124
+// --- NEW LINUX/X11 KEY DEFINES (Assumes W=119, S=115, etc.) ---
+# define KEY_ESC 65307  // Consistent X11 Escape
+# define KEY_W 119      // Linux keycode for 'w'
+# define KEY_S 115      // Linux keycode for 's'
+# define KEY_A 97       // Linux keycode for 'a'
+# define KEY_D 100      // Linux keycode for 'd'
+# define KEY_LEFT 65361 // Linux keycode for Left Arrow
+# define KEY_RIGHT 65363 // Linux keycode for Right Arrow
 # define TILE_SIZE 32
 # define ARROW_RIGHT 65363
 # define ARROW_LEFT 65361
@@ -182,7 +182,8 @@ typedef struct s_game
 t_texture   *load_one_texture(void *mlx_ptr, char *path, t_texture *tex); // Helper
 void        draw_textured_column(t_game *game, int x, int wall_start, int wall_end);
 void		render_floor_ceiling(t_game *game, int x, int wall_start, int wall_end);
-
+// In cube.h, add this prototype:
+void    free_mlx_textures(t_game *game);
 void ft_draw_ceiling_projection(t_game *game, int x, int wall_start, float ray_dir_x, float ray_dir_y);
 void ft_draw_floor_projection(t_game *game, int x, int wall_end, float ray_dir_x, float ray_dir_y);
 
