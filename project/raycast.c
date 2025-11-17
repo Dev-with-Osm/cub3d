@@ -1,18 +1,23 @@
 #include "cube.h"
 
-static void init_ray(t_game *game, float angle, t_dda *dda)
+static void delta_distance(t_dda *dda, float angle, t_game *game) // go for another explanation for this func
 {
     dda->map_x = (int)game->map->pp_x;
     dda->map_y = (int)game->map->pp_y;
-    
     dda->ray_dir_x = cos(angle);
     dda->ray_dir_y = sin(angle);
-    
-    // Calculate delta distances
-    dda->delta_dist_x = (dda->ray_dir_x == 0) ? 1e30 : fabs(1.0f / dda->ray_dir_x);
-    dda->delta_dist_y = (dda->ray_dir_y == 0) ? 1e30 : fabs(1.0f / dda->ray_dir_y);
-    
-    // Calculate step and initial side distances
+    if(dda->ray_dir_x == 0)
+        dda->delta_dist_x = 1e30;
+    else
+        dda->delta_dist_x = fabs(1.0f / dda->ray_dir_x);
+    if(dda->ray_dir_y == 0)
+        dda->delta_dist_y = 1e30;
+    else
+        dda->delta_dist_y = fabs(1.0f / dda->ray_dir_y);
+}
+static void init_ray(t_game *game, float angle, t_dda *dda)
+{
+    delta_distance(dda, angle, game);
     if (dda->ray_dir_x < 0)
     {
         dda->step_x = -1;
@@ -38,12 +43,10 @@ static void init_ray(t_game *game, float angle, t_dda *dda)
 
 static float perform_dda(t_game *game, t_dda *dda)
 {
-    int hit = 0;
-    
-    while (!hit)
+    dda->dda_hit = 0;
+    while (!dda->dda_hit)
     {
-        // Jump to next grid square
-        if (dda->side_dist_x < dda->side_dist_y)
+        if (dda->side_dist_x < dda->side_dist_y) // Jump to next grid square
         {
             dda->side_dist_x += dda->delta_dist_x;
             dda->map_x += dda->step_x;
@@ -55,19 +58,13 @@ static float perform_dda(t_game *game, t_dda *dda)
             dda->map_y += dda->step_y;
             dda->side = 1;
         }
-        
-        // Check boundaries
         if (dda->map_x < 0 || dda->map_x >= game->map->map_W ||
-            dda->map_y < 0 || dda->map_y >= game->map->map_H)
+            dda->map_y < 0 || dda->map_y >= game->map->map_H) // Check boundaries
             return (game->max_distance);
-        
-        // Check if we hit a wall
-        if (game->map->map[dda->map_y][dda->map_x] == '1')
-            hit = 1;
+        if (game->map->map[dda->map_y][dda->map_x] == '1') // Check if we hit a wall
+            dda->dda_hit = 1;
     }
-    
-    // Calculate perpendicular distance
-    if (dda->side == 0)
+    if (dda->side == 0) // Calculate perpendicular distance
         return (dda->side_dist_x - dda->delta_dist_x);
     return (dda->side_dist_y - dda->delta_dist_y);
 }
@@ -76,27 +73,28 @@ static void calculate_wall_data(t_game *game, t_dda *dda, float distance)
 {
     float wall_hit;
     
-    // Calculate where on the wall we hit
-    if (dda->side == 0)
+
+    if (dda->side == 0) // We hit a VERTICAL wall
     {
         wall_hit = game->map->pp_y + distance * dda->ray_dir_y;
-        game->wall->wall_face = (dda->step_x > 0) ? EAST : WEST;
+        if(dda->step_x > 0)
+            game->wall->wall_face =  EAST;
+        else 
+            game->wall->wall_face = WEST;
     }
-    else
+    else // We hit a HORIZONTAL wall
     {
         wall_hit = game->map->pp_x + distance * dda->ray_dir_x;
-        game->wall->wall_face = (dda->step_y > 0) ? SOUTH : NORTH;
+        if(dda->step_y > 0)
+            game->wall->wall_face = SOUTH;
+        else
+            game->wall->wall_face = NORTH;
     }
-    
-    // Get fractional part for texture coordinate
     game->wall->wall_x = wall_hit - floor(wall_hit);
-    
-    // Ensure valid range
     if (game->wall->wall_x < 0.0f)
         game->wall->wall_x += 1.0f;
     if (game->wall->wall_x >= 1.0f)
         game->wall->wall_x = 0.99999f;
-    
     game->wall->wall_distance = distance;
 }
 
@@ -112,7 +110,7 @@ float cast_ray(t_game *game, float angle)
     distance = perform_dda(game, &dda);
     
     // Calculate wall hit data
-    if (distance < game->max_distance)
+    if (distance < game->max_distance) // this max distance might needs to be modified or removed
         calculate_wall_data(game, &dda, distance);
     
     return (distance);

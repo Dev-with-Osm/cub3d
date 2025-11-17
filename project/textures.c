@@ -1,5 +1,24 @@
 #include "cube.h"
 
+void free_mlx_textures(t_game *game)
+{
+    if (!game->mlx_ptr || !game->textures)
+        return;
+    
+    if (game->textures->north && game->textures->north->img_ptr)
+        mlx_destroy_image(game->mlx_ptr, game->textures->north->img_ptr);
+    if (game->textures->south && game->textures->south->img_ptr)
+        mlx_destroy_image(game->mlx_ptr, game->textures->south->img_ptr);
+    if (game->textures->east && game->textures->east->img_ptr)
+        mlx_destroy_image(game->mlx_ptr, game->textures->east->img_ptr);
+    if (game->textures->west && game->textures->west->img_ptr)
+        mlx_destroy_image(game->mlx_ptr, game->textures->west->img_ptr);
+    if (game->textures->floor && game->textures->floor->img_ptr)
+        mlx_destroy_image(game->mlx_ptr, game->textures->floor->img_ptr);
+    if (game->textures->ceiling && game->textures->ceiling->img_ptr)
+        mlx_destroy_image(game->mlx_ptr, game->textures->ceiling->img_ptr);
+}
+
 t_texture *load_texture(void *mlx_ptr, char *path)
 {
     t_texture *tex;
@@ -32,8 +51,8 @@ int load_textures(t_game *game)
     game->textures->south = load_texture(game->mlx_ptr, "./textures/s.xpm");
     game->textures->east = load_texture(game->mlx_ptr, "./textures/s.xpm");
     game->textures->west = load_texture(game->mlx_ptr, "./textures/s.xpm");
-    game->textures->floor = load_texture(game->mlx_ptr, "./textures/floor.xpm");
-    game->textures->ceiling = load_texture(game->mlx_ptr, "./textures/ceiling.xpm");
+    game->textures->floor = load_texture(game->mlx_ptr, "./textures/f.xpm");
+    game->textures->ceiling = load_texture(game->mlx_ptr, "./textures/c.xpm");
     
     if (!game->textures->north || !game->textures->south ||
         !game->textures->east || !game->textures->west ||

@@ -1,66 +1,86 @@
 #include "cube.h"
 
-int is_wall(t_game *game, float x, float y)
+void movement(t_game *game, float *new_x, float *new_y, int check_dir)
 {
-    int map_x = (int)x;
-    int map_y = (int)y;
+    if(check_dir == 1)
+    {
+        *new_x = game->map->pp_x + cos(game->map->player_angle) * MOVE_SPEED;
+        *new_y = game->map->pp_y + sin(game->map->player_angle) * MOVE_SPEED;
+    }
+    else if(check_dir == 2)
+    {
+        *new_x = game->map->pp_x - cos(game->map->player_angle) * MOVE_SPEED;
+        *new_y = game->map->pp_y - sin(game->map->player_angle) * MOVE_SPEED;
+    }
+    else if(check_dir == 3)
+    {
+        *new_x = game->map->pp_x + cos(game->map->player_angle - PI/2) * MOVE_SPEED;
+        *new_y = game->map->pp_y + sin(game->map->player_angle - PI/2) * MOVE_SPEED;
+    }
+    else if(check_dir == 4)
+    {
+        *new_x = game->map->pp_x + cos(game->map->player_angle + PI/2) * MOVE_SPEED;
+        *new_y = game->map->pp_y + sin(game->map->player_angle + PI/2) * MOVE_SPEED;
+    }
     
-    if (map_x < 0 || map_x >= game->map->map_W ||
-        map_y < 0 || map_y >= game->map->map_H)
-        return (1);
-    
-    return (game->map->map[map_y][map_x] == '1');
+    if (!is_wall(game, *new_x, *new_y)) 
+    {
+        game->map->pp_x = *new_x;
+        game->map->pp_y = *new_y;
+    }
 }
 
-void handle_movement(t_game *game, float delta_time)
+void process_movement(t_game *game, float delta_time)
 {
-    float move_x = 0, move_y = 0;
-    float new_x, new_y;
+    float move_speed;
+    float rotation_speed;
+    float move_angle;
+    int forward;
+    int strafe;
     
-    (void)delta_time;
-    
-    // Forward/backward
-    if (game->keys->w_pressed)
-    {
-        move_x += cos(game->map->player_angle) * MOVE_SPEED;
-        move_y += sin(game->map->player_angle) * MOVE_SPEED;
-    }
-    if (game->keys->s_pressed)
-    {
-        move_x -= cos(game->map->player_angle) * MOVE_SPEED;
-        move_y -= sin(game->map->player_angle) * MOVE_SPEED;
-    }
-    
-    // Strafe
-    if (game->keys->d_pressed)
-    {
-        move_x += cos(game->map->player_angle + PI / 2.0f) * MOVE_SPEED;
-        move_y += sin(game->map->player_angle + PI / 2.0f) * MOVE_SPEED;
-    }
-    if (game->keys->a_pressed)
-    {
-        move_x -= cos(game->map->player_angle + PI / 2.0f) * MOVE_SPEED;
-        move_y -= sin(game->map->player_angle + PI / 2.0f) * MOVE_SPEED;
-    }
-    
-    // Apply movement with collision
-    new_x = game->map->pp_x + move_x;
-    new_y = game->map->pp_y + move_y;
-    
-    if (!is_wall(game, new_x, game->map->pp_y))
-        game->map->pp_x = new_x;
-    if (!is_wall(game, game->map->pp_x, new_y))
-        game->map->pp_y = new_y;
-    
-    // Rotation
-    if (game->keys->left_pressed)
-        game->map->player_angle -= ROT_SPEED;
-    if (game->keys->right_pressed)
-        game->map->player_angle += ROT_SPEED;
-    
-    // Normalize angle
-    while (game->map->player_angle < 0)
-        game->map->player_angle += 2.0f * PI;
-    while (game->map->player_angle >= 2.0f * PI)
-        game->map->player_angle -= 2.0f * PI;
+    delta_time = normalize_delta(delta_time);
+    move_speed = 4.0f * delta_time;
+    rotation_speed = 2.0f * delta_time;
+    forward = game->keys->w_pressed - game->keys->s_pressed;
+    strafe = game->keys->d_pressed - game->keys->a_pressed;
+    move_angle = calculate_move_angle(game, forward, strafe);
+    if (move_angle != -1.0f)
+        apply_movement(game, move_angle, move_speed);
+    apply_rotation(game, rotation_speed);
+}
+
+int key_press(int keycode, t_game *game)
+{
+    if (keycode == LINUX_KEY_ESC || keycode == MAC_KEY_ESC) 
+        close_window(game);
+    else if ((keycode == KEY_W || keycode == MAC_KEY_W) && !game->keys->w_pressed)
+        game->keys->w_pressed = 1;
+    else if ((keycode == KEY_S || keycode == MAC_KEY_S) && !game->keys->s_pressed)
+        game->keys->s_pressed = 1;
+    else if ((keycode == KEY_A || keycode == MAC_KEY_A) && !game->keys->a_pressed)
+        game->keys->a_pressed = 1;
+    else if ((keycode == KEY_D || keycode == MAC_KEY_D) && !game->keys->d_pressed)
+        game->keys->d_pressed = 1;
+    else if ((keycode == KEY_LEFT || keycode == MAC_KEY_LEFT) && !game->keys->left_pressed)
+        game->keys->left_pressed = 1;
+    else if ((keycode == KEY_RIGHT || keycode == MAC_KEY_RIGHT) && !game->keys->right_pressed)
+        game->keys->right_pressed = 1;
+    return 0;
+}
+
+int key_release(int keycode, t_game *game)
+{
+    if (keycode == KEY_W || keycode == MAC_KEY_W)
+        game->keys->w_pressed = 0;
+    else if (keycode == KEY_S || keycode == MAC_KEY_S)
+        game->keys->s_pressed = 0;
+    else if (keycode == KEY_A || keycode == MAC_KEY_A)
+        game->keys->a_pressed = 0;
+    else if (keycode == KEY_D || keycode == MAC_KEY_D)
+        game->keys->d_pressed = 0;
+    else if (keycode == KEY_LEFT || keycode == MAC_KEY_LEFT)
+        game->keys->left_pressed = 0;
+    else if (keycode == KEY_RIGHT || keycode == MAC_KEY_RIGHT)
+        game->keys->right_pressed = 0;
+    return 0;
 }

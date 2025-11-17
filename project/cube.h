@@ -20,7 +20,7 @@
 #define NUM_RAYS 1500
 #define FOV_DEGREES 65
 #define tile 72
-#define DEG_TO_RAD(deg) ((deg) * PI / 180.0) 
+// #define DEG_TO_RAD(deg) ((deg) * PI / 180.0) 
 #define WALL_HEIGHT_MULTIPLIER 1.0
 #define RED     0xFF0000
 #define GREEN   0x00FF00
@@ -56,8 +56,8 @@
 #define EAST  2
 #define WEST  3
 
-#define MOVE_SPEED 0.07
-#define ROT_SPEED 0.05
+#define MOVE_SPEED 0.05
+#define ROT_SPEED 0.03
 #define PLAYER_Z_HEIGHT 0.5
 
 typedef struct s_addr_lst
@@ -68,6 +68,7 @@ typedef struct s_addr_lst
 
 typedef struct s_dda
 {
+    int     dda_hit;
     int     map_x;
     int     map_y;
     float   ray_dir_x;
@@ -183,6 +184,14 @@ int         game_loop(t_game *game);
 float       cast_ray(t_game *game, float ray_angle);
 void        draw_wall_column(t_game *game, int x);
 void        draw_floor_ceiling(t_game *game, int x);
+void        draw_floor(t_game *game, int x, float ray_dir_x, float ray_dir_y);
+void        draw_ceiling(t_game *game, int x, float ray_dir_x, float ray_dir_y);
+void        draw_wall_pixels(t_game *game, int x, int tex_x, int draw_start, int draw_end);
+void        get_draw_boundaries(t_game *game, int *draw_start, int *draw_end);
+int  get_texture_x(t_game *game, t_texture *tex);
+t_texture *get_wall_texture(t_game *game);
+int apply_shading(int color, float distance, int side);
+
 
 // Texture functions
 int         load_textures(t_game *game);
@@ -195,13 +204,17 @@ t_img       *create_image(t_game *game);
 int         key_press(int keycode, t_game *game);
 int         key_release(int keycode, t_game *game);
 int         close_window(t_game *game);
-void        put_pixel(t_game *game, int x, int y, int color);
+void        put_pixel_safe(t_game *game, int x, int y, int color);
 void        clear_image(t_game *game, int color);
 
 // Movement
 void        handle_movement(t_game *game, float delta_time);
 int         is_wall(t_game *game, float x, float y);
 void        set_player_direction(char c, t_game *game);
+float       normalize_delta(float delta_time);
+float       calculate_move_angle(t_game *game, int forward, int strafe);
+void        apply_movement(t_game *game, float angle, float speed);
+void        apply_rotation(t_game *game, float rotation_speed);
 
 // Garbage collector
 void        *w_malloc(size_t size);
@@ -214,5 +227,6 @@ t_addr_lst  **get_garbage_collecter(void);
 char        **ft_split(char const *s, char c);
 char        **ft_split_n(char *s, char c);
 char        *get_map(int fd);
+int         init_structs(t_game *game);
 
 #endif

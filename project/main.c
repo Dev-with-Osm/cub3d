@@ -1,42 +1,5 @@
 #include "cube.h"
 
-static int init_structs(t_game *game)
-{
-    game->map = w_malloc(sizeof(t_map));
-    game->ray = w_malloc(sizeof(t_ray));
-    game->img = w_malloc(sizeof(t_img));
-    game->wall = w_malloc(sizeof(t_wall));
-    game->keys = w_malloc(sizeof(t_keys));
-    game->tms = w_malloc(sizeof(t_time));
-    game->textures = w_malloc(sizeof(t_textures));
-    
-    if (!game->map || !game->ray || !game->img || !game->wall ||
-        !game->keys || !game->tms || !game->textures)
-        return (0);
-    
-    game->textures->north = w_malloc(sizeof(t_texture));
-    game->textures->south = w_malloc(sizeof(t_texture));
-    game->textures->east = w_malloc(sizeof(t_texture));
-    game->textures->west = w_malloc(sizeof(t_texture));
-    game->textures->floor = w_malloc(sizeof(t_texture));
-    game->textures->ceiling = w_malloc(sizeof(t_texture));
-    
-    if (!game->textures->north || !game->textures->south ||
-        !game->textures->east || !game->textures->west ||
-        !game->textures->floor || !game->textures->ceiling)
-        return (0);
-    
-    game->keys->w_pressed = 0;
-    game->keys->s_pressed = 0;
-    game->keys->a_pressed = 0;
-    game->keys->d_pressed = 0;
-    game->keys->left_pressed = 0;
-    game->keys->right_pressed = 0;
-    game->tms->last_frame_time = 0;
-    
-    return (1);
-}
-
 static void find_player(t_game *game)
 {
     int x, y, max_w = 0;
@@ -61,85 +24,11 @@ static void find_player(t_game *game)
             max_w = x;
         y++;
     }
-    
     game->map->map_H = y;
     game->map->map_W = max_w;
     game->screenHeight = y * tile;
     game->screenWidth = max_w * tile;
-    game->fov = DEG_TO_RAD(60);
-}
-
-t_img *create_image(t_game *game)
-{
-    t_img *img;
-    
-    img = w_malloc(sizeof(t_img));
-    if (!img)
-        return (NULL);
-    
-    img->img_ptr = mlx_new_image(game->mlx_ptr, game->screenWidth, game->screenHeight);
-    if (!img->img_ptr)
-        return (NULL);
-    
-    img->img_data = mlx_get_data_addr(img->img_ptr, &img->bits_per_pixel,
-                                      &img->line_length, &img->endian);
-    if (!img->img_data)
-    {
-        mlx_destroy_image(game->mlx_ptr, img->img_ptr);
-        return (NULL);
-    }
-    
-    return (img);
-}
-
-void set_player_direction(char c, t_game *game)
-{
-    if (c == 'N')
-        game->map->player_angle = DEG_TO_RAD(270);
-    else if (c == 'S')
-        game->map->player_angle = DEG_TO_RAD(90);
-    else if (c == 'E')
-        game->map->player_angle = DEG_TO_RAD(0);
-    else if (c == 'W')
-        game->map->player_angle = DEG_TO_RAD(180);
-}
-
-int key_press(int keycode, t_game *game)
-{
-    if (keycode == KEY_ESC || keycode == LINUX_KEY_ESC || keycode == MAC_KEY_ESC)
-        close_window(game);
-    else if (keycode == KEY_W || keycode == MAC_KEY_W)
-        game->keys->w_pressed = 1;
-    else if (keycode == KEY_S || keycode == MAC_KEY_S)
-        game->keys->s_pressed = 1;
-    else if (keycode == KEY_A || keycode == MAC_KEY_A)
-        game->keys->a_pressed = 1;
-    else if (keycode == KEY_D || keycode == MAC_KEY_D)
-        game->keys->d_pressed = 1;
-    else if (keycode == KEY_LEFT || keycode == LINUX_KEY_LEFT || keycode == MAC_KEY_LEFT)
-        game->keys->left_pressed = 1;
-    else if (keycode == KEY_RIGHT || keycode == LINUX_KEY_RIGHT || keycode == MAC_KEY_RIGHT)
-        game->keys->right_pressed = 1;
-    
-    return (0);
-}
-
-int key_release(int keycode, t_game *game)
-{
-    if (keycode == KEY_W || keycode == MAC_KEY_W)
-        game->keys->w_pressed = 0;
-    else if (keycode == KEY_S || keycode == MAC_KEY_S)
-        game->keys->s_pressed = 0;
-    else if (keycode == KEY_A || keycode == MAC_KEY_A)
-        game->keys->a_pressed = 0;
-    else if (keycode == KEY_D || keycode == MAC_KEY_D)
-        game->keys->d_pressed = 0;
-    else if (keycode == KEY_LEFT || keycode == LINUX_KEY_LEFT || keycode == MAC_KEY_LEFT)
-        game->keys->left_pressed = 0;
-    else if (keycode == KEY_RIGHT || keycode == LINUX_KEY_RIGHT || keycode == MAC_KEY_RIGHT)
-        game->keys->right_pressed = 0;
-    
-    return (0);
+    game->fov = 60 * PI / 180.0;
 }
 
 int close_window(t_game *game)
