@@ -6,17 +6,16 @@
 /*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 17:42:31 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/12/08 17:42:32 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/12/08 17:58:56 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h" 
 
-
 static void	init_structs_data(t_game *game)
 {
 	game->keys->w_pressed = 0;
-    game->keys->s_pressed = 0;
+	game->keys->s_pressed = 0;
 	game->keys->a_pressed = 0;
 	game->keys->d_pressed = 0;
 	game->keys->left_pressed = 0;
@@ -33,8 +32,8 @@ int	init_structs(t_game *game)
 	game->keys = w_malloc(sizeof(t_keys));
 	game->tms = w_malloc(sizeof(t_time));
 	game->textures = w_malloc(sizeof(t_textures));
-	if (!game->map || !game->ray || !game->img || !game->wall ||
-		!game->keys || !game->tms || !game->textures)
+	if (!game->map || !game->ray || !game->img || !game->wall
+		|| !game->keys || !game->tms || !game->textures)
 		return (0);
 	game->textures->north = w_malloc(sizeof(t_texture));
 	game->textures->south = w_malloc(sizeof(t_texture));
@@ -42,9 +41,9 @@ int	init_structs(t_game *game)
 	game->textures->west = w_malloc(sizeof(t_texture));
 	game->textures->floor = w_malloc(sizeof(t_texture));
 	game->textures->ceiling = w_malloc(sizeof(t_texture));
-	if (!game->textures->north || !game->textures->south ||
-		!game->textures->east || !game->textures->west ||
-		!game->textures->floor || !game->textures->ceiling)
+	if (!game->textures->north || !game->textures->south
+		|| !game->textures->east || !game->textures->west
+		|| !game->textures->floor || !game->textures->ceiling)
 		return (0);
 	init_structs_data(game);
 	return (1);
@@ -52,7 +51,7 @@ int	init_structs(t_game *game)
 
 t_img	*create_image(t_game *game)
 {
-	t_img *img;
+	t_img	*img;
 
 	img = w_malloc(sizeof(t_img));
 	if (!img)
@@ -61,7 +60,7 @@ t_img	*create_image(t_game *game)
 	if (!img->img_ptr)
 		return (NULL);
 	img->img_data = mlx_get_data_addr(img->img_ptr, &img->bits_per_pixel,
-										&img->line_length, &img->endian);
+			&img->line_length, &img->endian);
 	if (!img->img_data)
 	{
 		mlx_destroy_image(game->mlx_ptr, img->img_ptr);

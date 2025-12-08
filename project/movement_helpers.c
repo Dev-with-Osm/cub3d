@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 17:42:40 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/12/08 17:42:41 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/12/08 18:00:14 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ float	normalize_delta(float delta_time)
 float	calculate_move_angle(t_game *game, int forward, int strafe)
 {
 	float	angle;
-    
+
 	if (forward == 0 && strafe == 0)
 		return (-1.0f);
 	angle = game->map->player_angle;
@@ -51,7 +51,7 @@ void	apply_movement(t_game *game, float angle, float speed)
 {
 	float	new_x;
 	float	new_y;
-    
+
 	new_x = game->map->pp_x + cos(angle) * speed;
 	new_y = game->map->pp_y + sin(angle) * speed;
 	if (!is_wall(game, new_x, game->map->pp_y))
