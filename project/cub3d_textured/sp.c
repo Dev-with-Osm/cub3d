@@ -1,4 +1,4 @@
-#include "cube.h"
+#include "cub3d.h" 
 
 static char	*ft_fill(const char *s, int *i, char c)
 {

@@ -1,4 +1,4 @@
-#include "cube.h"
+#include "cub3d.h" 
 
 int aloc(t_game *game)
 {

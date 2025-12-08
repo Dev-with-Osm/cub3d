@@ -1,4 +1,4 @@
-#include "cube.h"
+#include "cub3d.h" 
 
 void put_pixel_safe(t_game *game, int x, int y, int color)
 {

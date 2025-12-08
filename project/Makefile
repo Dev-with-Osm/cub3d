@@ -12,7 +12,7 @@ else
 endif
 
 SRCS = main.c raycast.c render.c textures.c garbage_collector.c map_parser.c \
-       get_next_line/get_next_line.c get_next_line/get_next_line_utils.c ft_split_n.c sp.c \
+       get_next_line/get_next_line.c get_next_line/get_next_line_utils.c ft_split_n.c \
 	   render_helpers.c wall_column.c floor_ceiling_helpers.c main_helper.c handle_movement.c \
 	   movement.c movement_helpers.c
 

@@ -1,4 +1,4 @@
-#include "cube.h"
+#include "cub3d.h" 
 
 static size_t	ft_strlenv2(const char *s, char c)
 {

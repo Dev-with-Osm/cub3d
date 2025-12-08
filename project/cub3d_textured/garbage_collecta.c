@@ -1,5 +1,5 @@
 
-#include "cube.h"
+#include "cub3d.h" 
 
 t_addr_lst	**get_garbage_collecter(void)
 {
