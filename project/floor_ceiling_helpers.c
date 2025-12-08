@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   floor_ceiling_helpers.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/08 17:42:15 by hoel-mos          #+#    #+#             */
+/*   Updated: 2025/12/08 17:47:30 by hoel-mos         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 // normenette is readey for session test
@@ -32,7 +44,7 @@ void	draw_ceiling(t_game *game, int x, float ray_dir_x, float ray_dir_y)
 {
 	int	y;
 	int	p;
-    
+
 	y = 0;
 	while (y < (int)game->wall->wall_start)
 	{
@@ -62,7 +74,7 @@ void draw_floor(t_game *game, int x, float ray_dir_x, float ray_dir_y)
 {
 	int	y;
 	int	p;
-    
+
 	y = (int)game->wall->wall_end;
 	while (y < (int)game->screenHeight)
 	{
