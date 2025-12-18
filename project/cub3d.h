@@ -110,12 +110,12 @@ typedef struct s_texture {
 } t_texture;
 
 typedef struct s_textures {
-	t_texture   *north;
-	t_texture   *south;
-	t_texture   *east;
-	t_texture   *west;
-	t_texture   *floor;
-	t_texture   *ceiling;
+    t_texture   *north;
+    t_texture   *south;
+    t_texture   *east;
+    t_texture   *west;
+    int         floor_color;      // Changed from t_texture *floor
+    int         ceiling_color;    // Changed from t_texture *ceiling
 } t_textures;
 
 typedef struct s_wall
@@ -183,9 +183,9 @@ void        rendering(t_game *game);
 int         game_loop(t_game *game);
 float       cast_ray(t_game *game, float ray_angle);
 void        draw_wall_column(t_game *game, int x);
-void        draw_floor_ceiling(t_game *game, int x);
-void        draw_floor(t_game *game, int x, float ray_dir_x, float ray_dir_y);
-void        draw_ceiling(t_game *game, int x, float ray_dir_x, float ray_dir_y);
+void		draw_floor_ceiling(t_game *game, int x);
+void        draw_floor(t_game *game, int x, int wall_end);
+void        draw_ceiling(t_game *game, int x, int wall_start);
 void        draw_wall_pixels(t_game *game, int x, int tex_x, int draw_start, int draw_end);
 void        get_draw_boundaries(t_game *game, int *draw_start, int *draw_end);
 int			get_texture_x(t_game *game, t_texture *tex);

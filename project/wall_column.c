@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   wall_column.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/08 17:43:15 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/12/08 18:12:34 by hoel-mos         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "cub3d.h" 
 
 t_texture	*get_wall_texture(t_game *game)
@@ -26,7 +14,7 @@ t_texture	*get_wall_texture(t_game *game)
 int	get_texture_x(t_game *game, t_texture *tex)
 {
 	int	tex_x;
-
+	
 	tex_x = (int)(game->wall->wall_x * tex->width); // Convert the wall hitting point (0.0-1.0) to pixel coordinate
 	if (tex_x < 0)
 		tex_x = 0;
@@ -49,7 +37,7 @@ static float	init_texture_pos(t_game *game, t_texture *tex)
 {
 	float	tex_step;
 	float	tex_pos;
-
+	
 	tex_step = (float)tex->height / game->wall->wall_height;
 	tex_pos = 0;
 	if ((int)game->wall->wall_start < 0)
@@ -75,7 +63,7 @@ void	draw_wall_pixels(t_game *game, int x, int tex_x, int draw_start, int draw_e
 	{
 		tex_y = (int)tex_pos % tex->height;  // Which texture row to use
 		if (tex_y < 0)
-			tex_y += tex->height;
+				tex_y += tex->height;
 		color = get_pixel_color(tex, tex_x, tex_y);  // Get color from texture
 		color = apply_shading(color, game->wall->wall_distance, side);  // Darken if far
 		put_pixel_safe(game, x, y, color);  // Draw the pixel
