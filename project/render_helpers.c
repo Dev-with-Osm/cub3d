@@ -1,21 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render_helpers.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/18 12:17:25 by hoel-mos          #+#    #+#             */
+/*   Updated: 2025/12/18 12:38:41 by hoel-mos         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h" 
 
 void	put_pixel_safe(t_game *game, int x, int y, int color)
 {
-	int offset;
-	
-	if (x < 0 || x >= (int)game->screenWidth || y < 0 || y >= (int)game->screenHeight)
-		return;
-	
-	offset = (y * game->img->line_length) + (x * (game->img->bits_per_pixel / 8));
+	int	offset;
+
+	if (x < 0 || x >= (int)game->screenWidth || y < 0
+		|| y >= (int)game->screenHeight)
+		return ;
+	offset = (y * game->img->line_length)
+		+ (x * (game->img->bits_per_pixel / 8));
 	*(int *)(game->img->img_data + offset) = color;
 }
 
 void	clear_image(t_game *game, int color)
 {
-	int *pixels;
-	int total;
-	int i;
+	int	*pixels;
+	int	total;
+	int	i;
 
 	i = 0;
 	total = game->screenWidth * game->screenHeight;
