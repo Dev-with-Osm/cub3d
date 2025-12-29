@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/macroooowave/Desktop/cub/untitled folder",
+      "program": "/Users/macroooowave/Desktop/cub/untitled folder/build/Debug/outDebug"
+    }
+  ]
+}
