@@ -1,6 +1,16 @@
-#include "cub3d.h" 
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   movement_helpers.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/30 17:26:35 by hoel-mos          #+#    #+#             */
+/*   Updated: 2025/12/30 17:27:04 by hoel-mos         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// normenette is readey for session test
+#include "cub3d.h" 
 
 float	normalize_delta(float delta_time)
 {
@@ -14,7 +24,7 @@ float	normalize_delta(float delta_time)
 float	calculate_move_angle(t_game *game, int forward, int strafe)
 {
 	float	angle;
-    
+
 	if (forward == 0 && strafe == 0)
 		return (-1.0f);
 	angle = game->map->player_angle;
@@ -39,7 +49,7 @@ void	apply_movement(t_game *game, float angle, float speed)
 {
 	float	new_x;
 	float	new_y;
-    
+
 	new_x = game->map->player_x + cos(angle) * speed;
 	new_y = game->map->player_y + sin(angle) * speed;
 	if (!is_wall(game, new_x, game->map->player_y))

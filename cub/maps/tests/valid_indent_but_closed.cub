@@ -1,10 +1,14 @@
-NO /home/okhourss/cub3d_final/cub/textures/n.xpm
-SO /home/okhourss/cub3d_final/cub/textures/s.xpm
-WE /home/okhourss/cub3d_final/cub/textures/w.xpm
-EA /home/okhourss/cub3d_final/cub/textures/e.xpm
+NO /home/hoel-mos/Desktop/cub3d/cub/textures/n.xpm
+SO /home/hoel-mos/Desktop/cub3d/cub/textures/n.xpm
+WE /home/hoel-mos/Desktop/cub3d/cub/textures/n.xpm
+EA /home/hoel-mos/Desktop/cub3d/cub/textures/n.xpm
 F 255,80,80
 C 60,60,60
 
-  11111
-  1N001
-  11111
+        111111111111111
+        1000000000000011
+111111111011111111110001
+100000001000000000000001
+100011101011111011110001
+10001N000000001000000001
+111111111111111111111111

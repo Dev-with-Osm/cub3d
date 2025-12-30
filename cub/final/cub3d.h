@@ -22,7 +22,6 @@
 #define NUM_RAYS 1500
 #define FOV_DEGREES 65
 #define tile 72
-// #define DEG_TO_RAD(deg) ((deg) * PI / 180.0) 
 #define WALL_HEIGHT_MULTIPLIER 1.0
 #define RED     0xFF0000
 #define GREEN   0x00FF00
@@ -36,14 +35,7 @@
 // --- KEY DEFINITIONS ---
 # define LINUX_KEY_ESC 65307
 # define LINUX_KEY_LEFT 65361 
-# define LINUX_KEY_RIGHT 65363 
-# define MAC_KEY_ESC 53
-# define MAC_KEY_LEFT 123
-# define MAC_KEY_RIGHT 124
-# define MAC_KEY_W 13
-# define MAC_KEY_S 1 
-# define MAC_KEY_A 0 
-# define MAC_KEY_D 2 
+# define LINUX_KEY_RIGHT 65363
 # define KEY_ESC 65307
 # define KEY_W 119      
 # define KEY_S 115      
@@ -53,13 +45,15 @@
 # define KEY_RIGHT 65363
 # define TILE_SIZE 32
 
+#define screenH 768
+#define screenW 1520
 #define NORTH 0
 #define SOUTH 1
 #define EAST  2
 #define WEST  3
 
-#define MOVE_SPEED 0.05
-#define ROT_SPEED 0.03
+#define M_SPEED 0.04
+#define ROT_SPEED 0.04
 #define PLAYER_Z_HEIGHT 0.5
 
 typedef struct s_addr_lst
@@ -112,12 +106,12 @@ typedef struct s_texture {
 } t_texture;
 
 typedef struct s_textures {
-    t_texture   *north;
-    t_texture   *south;
-    t_texture   *east;
-    t_texture   *west;
-    int         floor_color;      // Changed from t_texture *floor
-    int         ceiling_color;    // Changed from t_texture *ceiling
+	t_texture   *north;
+	t_texture   *south;
+	t_texture   *east;
+	t_texture   *west;
+	int         floor_color;
+	int         ceiling_color;
 } t_textures;
 
 typedef struct s_wall
@@ -150,35 +144,35 @@ typedef struct s_keys{
 
 typedef struct s_map
 {
-	char                **map;
-	int                 map_H;
-	int                 map_W;
 	float               player_x;
 	float               player_y;
 	float               player_angle;
+	int                 map_H;
+	int                 map_W;
+	char                **map;
 }	                  t_map;
 
 
 typedef struct s_game
 {
-	float           max_distance;
-	float           fov;
-	int             screen_x;
-	int             screen_y;
-	float           screenWidth;
-	float           screenHeight;
-	void            *mlx_ptr;
-	void            *wid_ptr;
-	float           camerax;
-	float           cameray;
 	t_map   *map;
 	t_wall *wall;
 	t_img *img;
 	t_ray *ray;
 	t_keys *keys;
 	t_time *tms;
-	t_textures  *textures;
 	t_dda *dda;
+	t_textures  *textures;
+	float           max_distance;
+	float           fov;
+	float           screenWidth;
+	float           camerax;
+	float           cameray;
+	float           screenHeight;
+	int             screen_x;
+	int             screen_y;
+	void            *wid_ptr;
+	void            *mlx_ptr;
 }           t_game;
 
 //############################PARSING##################################
@@ -201,13 +195,13 @@ typedef enum e_tex_id
 
 typedef struct s_config
 {
-	char			*tex[TEX_MAX];
 	int				has_tex[TEX_MAX];
+	char			*tex[TEX_MAX];
 	int				floor_set;
 	int				ceil_set;
+	int				header_done;
 	t_rgb			floor_rgb;
 	t_rgb			ceil_rgb;
-	int				header_done;
 }					t_config;
 
 
@@ -218,12 +212,12 @@ typedef struct s_ff
 	int				h;
 	int				ww;
 	int				hh;
-	char			*grid;
-	unsigned char	*vis;
 	int				*qx;
 	int				*qy;
 	int				qh;
 	int				qt;
+	char			*grid;
+	unsigned char	*vis;
 }					t_ff;
 
 typedef struct s_build
@@ -247,6 +241,7 @@ typedef struct s_player
 void        rendering(t_game *game);
 int         game_loop(t_game *game);
 float       cast_ray(t_game *game, float ray_angle);
+int         init_structs(t_game *game);
 void        draw_wall_column(t_game *game, int x);
 void		draw_floor_ceiling(t_game *game, int x);
 void        draw_floor(t_game *game, int x, int wall_end);
@@ -259,7 +254,6 @@ int apply_shading(int color, float distance, int side);
 
 
 // Texture functions
-// int         load_textures(t_game *game);
 int	load_textures(t_game *game, char **tex);
 t_texture   *load_texture(void *mlx_ptr, char *path);
 void        free_textures(t_game *game);
@@ -290,11 +284,7 @@ void        ft_lstadd_f(t_addr_lst **lst, t_addr_lst *ne);
 void        ft_lstc(t_addr_lst **lst);
 t_addr_lst  **get_garbage_collecter(void);
 
-// Map parsing //                                              maight delete later
-char        **ft_split(char const *s, char c);
-char        **ft_split_n(char *s, char c);
-char        *get_map(int fd);
-int         init_structs(t_game *game);
+
 
 //#####################################################
 

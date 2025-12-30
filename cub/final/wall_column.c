@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   wall_column.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/30 16:36:43 by hoel-mos          #+#    #+#             */
+/*   Updated: 2025/12/30 16:39:32 by hoel-mos         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h" 
 
 t_texture	*get_wall_texture(t_game *game)
@@ -14,7 +26,7 @@ t_texture	*get_wall_texture(t_game *game)
 int	get_texture_x(t_game *game, t_texture *tex)
 {
 	int	tex_x;
-	
+
 	tex_x = (int)(game->wall->wall_x * tex->width); // Convert the wall hitting point (0.0-1.0) to pixel coordinate
 	if (tex_x < 0)
 		tex_x = 0;
@@ -37,7 +49,7 @@ static float	init_texture_pos(t_game *game, t_texture *tex)
 {
 	float	tex_step;
 	float	tex_pos;
-	
+
 	tex_step = (float)tex->height / game->wall->wall_height;
 	tex_pos = 0;
 	if ((int)game->wall->wall_start < 0)
@@ -45,7 +57,7 @@ static float	init_texture_pos(t_game *game, t_texture *tex)
 	return (tex_pos);
 }
 
-void	draw_wall_pixels(t_game *game, int x, int tex_x, int draw_start, int draw_end)
+void	draw_wall_pixels(t_game *game, int x, int tex_x, int draw_start, int draw_end) // to handle later
 {
 	t_texture	*tex;
 
@@ -57,17 +69,17 @@ void	draw_wall_pixels(t_game *game, int x, int tex_x, int draw_start, int draw_e
 	if (game->wall->wall_face == EAST || game->wall->wall_face == WEST)
 		side = 0;
 	else
-		side =  1;
+		side = 1;
 	y = draw_start;
-	while (y < draw_end)  // For each screen pixel from top to bottom of wall
+	while (y < draw_end) // For each screen pixel from top to bottom of wall
 	{
-		tex_y = (int)tex_pos % tex->height;  // Which texture row to use
+		tex_y = (int)tex_pos % tex->height;// Which texture row to use
 		if (tex_y < 0)
-				tex_y += tex->height;
-		color = get_pixel_color(tex, tex_x, tex_y);  // Get color from texture
-		color = apply_shading(color, game->wall->wall_distance, side);  // Darken if far
-		put_pixel_safe(game, x, y, color);  // Draw the pixel
-		tex_pos += tex_step;  // Move to next texture row
-		y++;  // Move to next screen row
+			tex_y += tex->height;
+		color = get_pixel_color(tex, tex_x, tex_y);// Get color from texture
+		color = apply_shading(color, game->wall->wall_distance, side);// Darken if far
+		put_pixel_safe(game, x, y, color);// Draw the pixel
+		tex_pos += tex_step;// Move to next texture row
+		y++;// Move to next screen row
 	}
 }

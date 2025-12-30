@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   textures.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/30 16:34:08 by hoel-mos          #+#    #+#             */
+/*   Updated: 2025/12/30 16:36:30 by hoel-mos         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h" 
 
 void	free_mlx_textures(t_game *game)
 {
 	if (!game->mlx_ptr || !game->textures)
-		return;
+		return ;
 	if (game->textures->north && game->textures->north->img_ptr)
 		mlx_destroy_image(game->mlx_ptr, game->textures->north->img_ptr);
 	if (game->textures->south && game->textures->south->img_ptr)
@@ -16,19 +28,20 @@ void	free_mlx_textures(t_game *game)
 
 t_texture	*load_texture(void *mlx_ptr, char *path)
 {
-	t_texture *tex;
+	t_texture	*tex;
 
 	tex = w_malloc(sizeof(t_texture));
 	if (!tex)
 		return (NULL);
-	tex->img_ptr = mlx_xpm_file_to_image(mlx_ptr, path, &tex->width, &tex->height);
+	tex->img_ptr = mlx_xpm_file_to_image(mlx_ptr, path,
+			&tex->width, &tex->height);
 	if (!tex->img_ptr)
 	{
 		fprintf(stderr, "Error: Failed to load %s\n", path);
 		return (NULL);
 	}
 	tex->img_data = mlx_get_data_addr(tex->img_ptr, &tex->bits_per_pixel,
-									&tex->line_length, &tex->endian);
+			&tex->line_length, &tex->endian);
 	if (!tex->img_data)
 	{
 		mlx_destroy_image(mlx_ptr, tex->img_ptr);
@@ -41,10 +54,10 @@ int	load_textures(t_game *game, char **tex)
 {
 	game->textures->north = load_texture(game->mlx_ptr, tex[0]);
 	game->textures->south = load_texture(game->mlx_ptr, tex[1]);
-	game->textures->east = load_texture(game->mlx_ptr,  tex[2]);
-	game->textures->west = load_texture(game->mlx_ptr,  tex[3]);
-	if (!game->textures->north || !game->textures->south ||
-		!game->textures->east || !game->textures->west )
+	game->textures->east = load_texture(game->mlx_ptr, tex[2]);
+	game->textures->west = load_texture(game->mlx_ptr, tex[3]);
+	if (!game->textures->north || !game->textures->south
+		|| !game->textures->east || !game->textures->west)
 		return (0);
 	return (1);
 }
@@ -52,7 +65,7 @@ int	load_textures(t_game *game, char **tex)
 void	free_textures(t_game *game)
 {
 	if (!game->mlx_ptr || !game->textures)
-		return;
+		return ;
 	if (game->textures->north && game->textures->north->img_ptr)
 		mlx_destroy_image(game->mlx_ptr, game->textures->north->img_ptr);
 	if (game->textures->south && game->textures->south->img_ptr)
@@ -65,10 +78,11 @@ void	free_textures(t_game *game)
 
 int	get_pixel_color(t_texture *tex, int x, int y)
 {
-	char *pixel;
-	
+	char	*pixel;
+
 	if (x < 0 || x >= tex->width || y < 0 || y >= tex->height)
 		return (0);
-	pixel = tex->img_data + (y * tex->line_length) + (x * (tex->bits_per_pixel / 8));
+	pixel = tex->img_data + (y * tex->line_length)
+		+ (x * (tex->bits_per_pixel / 8));
 	return (*(int *)pixel);
 }

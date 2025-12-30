@@ -1,6 +1,16 @@
-#include "cub3d.h" 
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycast.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/30 16:49:40 by hoel-mos          #+#    #+#             */
+/*   Updated: 2025/12/30 16:56:14 by hoel-mos         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// normenette is readey for session test
+#include "cub3d.h" 
 
 static void	delta_distance(t_dda *dda, float angle, t_game *game) // go for another explanation for this func
 {
@@ -8,11 +18,11 @@ static void	delta_distance(t_dda *dda, float angle, t_game *game) // go for anot
 	dda->map_y = (int)game->map->player_y;
 	dda->ray_dir_x = cos(angle);
 	dda->ray_dir_y = sin(angle);
-	if(dda->ray_dir_x == 0)
+	if (dda->ray_dir_x == 0)
 		dda->delta_dist_x = 1e30;
 	else
 		dda->delta_dist_x = fabs(1.0f / dda->ray_dir_x);
-	if(dda->ray_dir_y == 0)
+	if (dda->ray_dir_y == 0)
 		dda->delta_dist_y = 1e30;
 	else
 		dda->delta_dist_y = fabs(1.0f / dda->ray_dir_y);
@@ -31,7 +41,6 @@ static void	init_ray(t_game *game, float angle, t_dda *dda)
 		dda->step_x = 1;
 		dda->side_dist_x = (dda->map_x + 1.0f - game->map->player_x) * dda->delta_dist_x;
 	}
-	
 	if (dda->ray_dir_y < 0)
 	{
 		dda->step_y = -1;
@@ -61,8 +70,8 @@ static float	perform_dda(t_game *game, t_dda *dda)
 			dda->map_y += dda->step_y;
 			dda->side = 1;
 		}
-		if (dda->map_x < 0 || dda->map_x >= game->map->map_W ||
-			dda->map_y < 0 || dda->map_y >= game->map->map_H) // Check boundaries
+		if (dda->map_x < 0 || dda->map_x >= game->map->map_W
+			|| dda->map_y < 0 || dda->map_y >= game->map->map_H) // Check boundaries
 			return (game->max_distance);
 		if (game->map->map[dda->map_y][dda->map_x] == '1') // Check if we hit a wall
 			dda->dda_hit = 1;
@@ -74,20 +83,20 @@ static float	perform_dda(t_game *game, t_dda *dda)
 
 static void	calculate_wall_data(t_game *game, t_dda *dda, float distance)
 {
-	float wall_hit;
+	float	wall_hit;
 
 	if (dda->side == 0) // We hit a VERTICAL wall
 	{
 		wall_hit = game->map->player_y + distance * dda->ray_dir_y;
-		if(dda->step_x > 0)
-			game->wall->wall_face =  EAST;
-		else 
+		if (dda->step_x > 0)
+			game->wall->wall_face = EAST;
+		else
 			game->wall->wall_face = WEST;
 	}
 	else // We hit a HORIZONTAL wall
 	{
 		wall_hit = game->map->player_x + distance * dda->ray_dir_x;
-		if(dda->step_y > 0)
+		if (dda->step_y > 0)
 			game->wall->wall_face = SOUTH;
 		else
 			game->wall->wall_face = NORTH;
@@ -104,7 +113,7 @@ float	cast_ray(t_game *game, float angle)
 {
 	t_dda	dda;
 	float	distance;
-	
+
 	// Initialize ray
 	init_ray(game, angle, &dda);
 	// Perform DDA

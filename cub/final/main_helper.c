@@ -1,19 +1,26 @@
-#include "cub3d.h" 
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_helper.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/30 17:38:19 by hoel-mos          #+#    #+#             */
+/*   Updated: 2025/12/30 17:41:12 by hoel-mos         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "cub3d.h" 
 
 static void	init_structs_data(t_game *game)
 {
 	game->keys->w_pressed = 0;
-    game->keys->s_pressed = 0;
+	game->keys->s_pressed = 0;
 	game->keys->a_pressed = 0;
 	game->keys->d_pressed = 0;
 	game->keys->left_pressed = 0;
 	game->keys->right_pressed = 0;
 	game->tms->last_frame_time = 0;
-
-	// after merge this initialization will no longer be needed
-	// game->textures->floor_color = 0x404040;      // Default dark gray
-    // game->textures->ceiling_color = 0x87CEEB;    // Default sky blue
 }
 
 int	init_structs(t_game *game)
@@ -25,15 +32,15 @@ int	init_structs(t_game *game)
 	game->keys = w_malloc(sizeof(t_keys));
 	game->tms = w_malloc(sizeof(t_time));
 	game->textures = w_malloc(sizeof(t_textures));
-	if (!game->map || !game->ray || !game->img || !game->wall ||
-		!game->keys || !game->tms || !game->textures)
+	if (!game->map || !game->ray || !game->img || !game->wall
+		|| !game->keys || !game->tms || !game->textures)
 		return (0);
 	game->textures->north = w_malloc(sizeof(t_texture));
 	game->textures->south = w_malloc(sizeof(t_texture));
 	game->textures->east = w_malloc(sizeof(t_texture));
 	game->textures->west = w_malloc(sizeof(t_texture));
-	if (!game->textures->north || !game->textures->south ||
-		!game->textures->east || !game->textures->west)
+	if (!game->textures->north || !game->textures->south
+		|| !game->textures->east || !game->textures->west)
 		return (0);
 	init_structs_data(game);
 	return (1);
@@ -41,16 +48,17 @@ int	init_structs(t_game *game)
 
 t_img	*create_image(t_game *game)
 {
-	t_img *img;
+	t_img	*img;
 
 	img = w_malloc(sizeof(t_img));
 	if (!img)
 		return (NULL);
-	img->img_ptr = mlx_new_image(game->mlx_ptr, game->screenWidth, game->screenHeight);
+	img->img_ptr = mlx_new_image(game->mlx_ptr,
+			game->screenWidth, game->screenHeight);
 	if (!img->img_ptr)
 		return (NULL);
 	img->img_data = mlx_get_data_addr(img->img_ptr, &img->bits_per_pixel,
-										&img->line_length, &img->endian);
+			&img->line_length, &img->endian);
 	if (!img->img_data)
 	{
 		mlx_destroy_image(game->mlx_ptr, img->img_ptr);

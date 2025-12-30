@@ -1,21 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render_helpers.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/30 16:47:11 by hoel-mos          #+#    #+#             */
+/*   Updated: 2025/12/30 16:49:15 by hoel-mos         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h" 
 
 void	put_pixel_safe(t_game *game, int x, int y, int color)
 {
-	int offset;
-	
+	int	offset;
+
 	if (x < 0 || x >= (int)game->screenWidth || y < 0 || y >= (int)game->screenHeight)
-		return;
-	
+		return ;
 	offset = (y * game->img->line_length) + (x * (game->img->bits_per_pixel / 8));
 	*(int *)(game->img->img_data + offset) = color;
 }
 
 void	clear_image(t_game *game, int color)
 {
-	int *pixels;
-	int total;
-	int i;
+	int	*pixels;
+	int	total;
+	int	i;
 
 	i = 0;
 	total = game->screenWidth * game->screenHeight;
@@ -30,8 +41,10 @@ void	clear_image(t_game *game, int color)
 int	apply_shading(int color, float distance, int side)
 {
 	float	brightness;
+	int		r;
+	int		g;
+	int		b;
 
-	int (r), (g), (b);
 	// Calculate brightness based on distance
 	brightness = 1.0f - (distance / 15.0f);
 	if (brightness < 0.2f)

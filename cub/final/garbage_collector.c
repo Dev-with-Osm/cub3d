@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   garbage_collector.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/30 18:08:29 by hoel-mos          #+#    #+#             */
+/*   Updated: 2025/12/30 18:09:44 by hoel-mos         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h" 
-// normenette is readey for session test
 
 // Returns the address of the static list pointer (the list head)
 t_addr_lst	**get_garbage_collecter(void)
@@ -12,7 +23,7 @@ t_addr_lst	**get_garbage_collecter(void)
 // Creates a new list node and tracks the content pointer
 t_addr_lst	*ft_lstn(void *content)
 {
-    t_addr_lst	*node;
+	t_addr_lst	*node;
 
 	node = (t_addr_lst *)malloc(sizeof(t_addr_lst));
 	if (!node)
@@ -27,7 +38,7 @@ t_addr_lst	*ft_lstn(void *content)
 // O(1) Add Front: Adds a new node to the start of the list
 void	ft_lstadd_f(t_addr_lst **lst, t_addr_lst *ne)
 {
-	if	(!lst || !ne)
+	if (!lst || !ne)
 		return ;
 	ne->next = *lst;
 	*lst = ne;
@@ -36,7 +47,7 @@ void	ft_lstadd_f(t_addr_lst **lst, t_addr_lst *ne)
 // Cleans up all tracked memory. IMPORTANT: Does not call exit.
 void	ft_lstc(t_addr_lst **lst)
 {
-	t_addr_lst  *tmp;
+	t_addr_lst	*tmp;
 
 	if (!lst || !(*lst))
 		return ;
@@ -74,7 +85,7 @@ void	*w_malloc(size_t size)
 		perror("Error: GC node creation failed");
 		exit(EXIT_FAILURE);
 	}
-    // O(1) addition
-	ft_lstadd_f(lst, new_node); 
+	// O(1) addition
+	ft_lstadd_f(lst, new_node);
 	return (ptr);
 }
