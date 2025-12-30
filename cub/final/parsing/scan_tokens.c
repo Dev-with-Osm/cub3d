@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 11:48:02 by okhourss          #+#    #+#             */
-/*   Updated: 2025/12/30 10:13:22 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/12/30 10:53:50 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	p_dup_token(const char *beg, size_t len, char **out)
 {
 	char	*dst;
 
-	dst = (char *)malloc(len + 1);
+	dst = (char *)w_malloc(len + 1);
 	if (!dst)
 		return (p_err("malloc failed (token)"));
 	ft_memcpy(dst, beg, len);

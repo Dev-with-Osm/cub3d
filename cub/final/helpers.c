@@ -12,11 +12,19 @@ void	decide_side(int *side, int face)
 
 int	close_window(t_game *game)
 {
+        // osm; 
 	if (game->img && game->img->img_ptr)
 		mlx_destroy_image(game->mlx_ptr, game->img->img_ptr);
-	if (game->wid_ptr)
-		mlx_destroy_window(game->mlx_ptr, game->wid_ptr);
+	// if (game->wid_ptr)
+	// 	mlx_destroy_window(game->mlx_ptr, game->wid_ptr);
 	free_mlx_textures(game); 
+	if (game->wid_ptr && game->mlx_ptr)
+		mlx_destroy_window(game->mlx_ptr, game->wid_ptr);
+	if (game->mlx_ptr)
+	{
+		mlx_destroy_display(game->mlx_ptr);
+		free(game->mlx_ptr);
+	}
 	ft_lstc(get_garbage_collecter());
 	exit(0);
 }

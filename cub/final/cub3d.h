@@ -343,7 +343,6 @@ void				free_lines_buf(char **buf, int n);
 void				free_map_n(char **map, int h);
 
 int parsing(int argc, char **argv, t_game *game, t_config *cfg);
-
 //#####################################################
 
 void	free_mlx_textures(t_game *game);

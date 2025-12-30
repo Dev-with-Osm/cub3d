@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 11:39:21 by okhourss          #+#    #+#             */
-/*   Updated: 2025/12/30 10:14:27 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/12/30 11:07:45 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,10 @@ static int	set_texture(t_config *cfg, t_tex_id id, char *path)
 {
 	if (cfg->has_tex[id])
 	{
-		free(path);
 		return (p_err("duplicate texture directive"));
 	}
 	if (validate_tex_path(path))
 	{
-		free(path);
 		return (1);
 	}
 	cfg->tex[id] = path;

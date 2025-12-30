@@ -42,7 +42,6 @@ int main(int ac, char **av)
     t_addr_lst **gc_list;
     
     gc_list = get_garbage_collecter();
-    
     game = w_malloc(sizeof(t_game));
     if (!init_structs(game))
     {
@@ -57,23 +56,17 @@ int main(int ac, char **av)
     game->wid_ptr = mlx_new_window(game->mlx_ptr, game->screenWidth,
                                    game->screenHeight, "CUB3D");
     game->img = create_image(game);
-    
     if (!load_textures(game, cfg.tex))
     {
         fprintf(stderr, "Error: Failed to load textures\n");
         free_textures(game);
-        return (ft_lstc(gc_list), 1);
-    }
-    
+        // osm: i added close window here; 
+        return (close_window(game), 1);
+    }   
     mlx_hook(game->wid_ptr, 2, 1L << 0, key_press, game);
     mlx_hook(game->wid_ptr, 3, 1L << 1, key_release, game);
     mlx_hook(game->wid_ptr, 17, 0, close_window, game);
     mlx_loop_hook(game->mlx_ptr, game_loop, game);
     mlx_loop(game->mlx_ptr);
-    
-    free_textures(game);
-
-    ft_lstc(gc_list);
-    
     return (0);
 }

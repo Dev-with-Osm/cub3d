@@ -10,7 +10,7 @@ unsigned int	rgb_to_hex(t_rgb c)
 int parsing(int argc, char **argv, t_game *game, t_config *cfg)
 {
     if (argc != 2)
-        return (printf("Usage: %s file.cub\n", argv[0]));
+        return (printf("Usage: %s file.cub\n", argv[0]), 1);
     if (parse_cub_file(argv[1], cfg, game->map))
         return 1;
     game->screenHeight = game->map->map_H * tile;
