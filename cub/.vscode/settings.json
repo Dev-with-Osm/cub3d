@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "cub3d.h": "c",
+        "parsing.h": "c",
+        "mlx.h": "c",
+        "get_next_line.h": "c"
+    }
+}
