@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 16:36:43 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/12/30 16:39:32 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2026/01/02 20:44:14 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	get_texture_x(t_game *game, t_texture *tex)
 {
 	int	tex_x;
 
-	tex_x = (int)(game->wall->wall_x * tex->width); // Convert the wall hitting point (0.0-1.0) to pixel coordinate
+	tex_x = (int)(game->wall->wall_x * tex->width);
 	if (tex_x < 0)
 		tex_x = 0;
 	if (tex_x >= tex->width)
@@ -35,14 +35,14 @@ int	get_texture_x(t_game *game, t_texture *tex)
 	return (tex_x);
 }
 
-void	get_draw_boundaries(t_game *game, int *draw_start, int *draw_end)
+void	get_draw_boundaries(t_game *game)
 {
-	*draw_start = (int)game->wall->wall_start;
-	*draw_end = (int)game->wall->wall_end;
-	if (*draw_start < 0)
-		*draw_start = 0;
-	if (*draw_end > (int)game->screenHeight)
-		*draw_end = (int)game->screenHeight;
+	game->wall->draw_start = (int)game->wall->wall_start;
+	game->wall->draw_end = (int)game->wall->wall_end;
+	if (game->wall->draw_start < 0)
+		game->wall->draw_start = 0;
+	if (game->wall->draw_end > (int)game->screenHeight)
+		game->wall->draw_end = (int)game->screenHeight;
 }
 
 static float	init_texture_pos(t_game *game, t_texture *tex)
@@ -57,7 +57,7 @@ static float	init_texture_pos(t_game *game, t_texture *tex)
 	return (tex_pos);
 }
 
-void	draw_wall_pixels(t_game *game, int x, int tex_x, int draw_start, int draw_end) // to handle later
+void	draw_wall_pixels(t_game *game, int x, int tex_x)
 {
 	t_texture	*tex;
 
@@ -70,16 +70,16 @@ void	draw_wall_pixels(t_game *game, int x, int tex_x, int draw_start, int draw_e
 		side = 0;
 	else
 		side = 1;
-	y = draw_start;
-	while (y < draw_end) // For each screen pixel from top to bottom of wall
+	y = game->wall->draw_start;
+	while (y < game->wall->draw_end)
 	{
-		tex_y = (int)tex_pos % tex->height;// Which texture row to use
+		tex_y = (int)tex_pos % tex->height;
 		if (tex_y < 0)
 			tex_y += tex->height;
-		color = get_pixel_color(tex, tex_x, tex_y);// Get color from texture
-		color = apply_shading(color, game->wall->wall_distance, side);// Darken if far
-		put_pixel_safe(game, x, y, color);// Draw the pixel
-		tex_pos += tex_step;// Move to next texture row
-		y++;// Move to next screen row
+		color = get_pixel_color(tex, tex_x, tex_y);
+		color = apply_shading(color, game->wall->wall_distance, side);
+		put_pixel_safe(game, x, y, color);
+		tex_pos += tex_step;
+		y++;
 	}
 }

@@ -122,6 +122,8 @@ typedef struct s_wall
 	float   wall_height;
 	float   wall_x;
 	int     wall_face;
+	int		draw_start;
+	int		draw_end;
 } t_wall;
 
 typedef struct s_ray
@@ -242,19 +244,21 @@ void        rendering(t_game *game);
 int         game_loop(t_game *game);
 float       cast_ray(t_game *game, float ray_angle);
 int         init_structs(t_game *game);
+void		delta_distance(t_dda *dda, float angle);
+void		side_dist(t_game *game, t_dda *dda, int sign);
 void        draw_wall_column(t_game *game, int x);
 void		draw_floor_ceiling(t_game *game, int x);
 void        draw_floor(t_game *game, int x, int wall_end);
 void        draw_ceiling(t_game *game, int x, int wall_start);
-void        draw_wall_pixels(t_game *game, int x, int tex_x, int draw_start, int draw_end);
-void        get_draw_boundaries(t_game *game, int *draw_start, int *draw_end);
+void        draw_wall_pixels(t_game *game, int x, int tex_x);
+void        get_draw_boundaries(t_game *game);
 int			get_texture_x(t_game *game, t_texture *tex);
-t_texture *get_wall_texture(t_game *game);
-int apply_shading(int color, float distance, int side);
+t_texture	*get_wall_texture(t_game *game);
+int			apply_shading(int color, float distance, int side);
 
 
 // Texture functions
-int	load_textures(t_game *game, char **tex);
+int			load_textures(t_game *game, char **tex);
 t_texture   *load_texture(void *mlx_ptr, char *path);
 void        free_textures(t_game *game);
 int         get_pixel_color(t_texture *tex, int x, int y);

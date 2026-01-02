@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 19:15:42 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/12/30 19:15:43 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2026/01/02 20:49:32 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	extra_game_init(t_game *game)
 	game->img = create_image(game);
 }
 
-void mlx_launch(t_game *game)
+void	mlx_launch(t_game *game)
 {
 	mlx_hook(game->wid_ptr, 2, 1L << 0, key_press, game);
 	mlx_hook(game->wid_ptr, 3, 1L << 1, key_release, game);
