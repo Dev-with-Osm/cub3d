@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 16:34:08 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/12/30 16:36:30 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2026/01/04 16:02:29 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_texture	*load_texture(void *mlx_ptr, char *path)
 			&tex->width, &tex->height);
 	if (!tex->img_ptr)
 	{
-		fprintf(stderr, "Error: Failed to load %s\n", path);
+		printf("Error: Failed to load %s\n", path);
 		return (NULL);
 	}
 	tex->img_data = mlx_get_data_addr(tex->img_ptr, &tex->bits_per_pixel,
@@ -60,20 +60,6 @@ int	load_textures(t_game *game, char **tex)
 		|| !game->textures->east || !game->textures->west)
 		return (0);
 	return (1);
-}
-
-void	free_textures(t_game *game)
-{
-	if (!game->mlx_ptr || !game->textures)
-		return ;
-	if (game->textures->north && game->textures->north->img_ptr)
-		mlx_destroy_image(game->mlx_ptr, game->textures->north->img_ptr);
-	if (game->textures->south && game->textures->south->img_ptr)
-		mlx_destroy_image(game->mlx_ptr, game->textures->south->img_ptr);
-	if (game->textures->east && game->textures->east->img_ptr)
-		mlx_destroy_image(game->mlx_ptr, game->textures->east->img_ptr);
-	if (game->textures->west && game->textures->west->img_ptr)
-		mlx_destroy_image(game->mlx_ptr, game->textures->west->img_ptr);
 }
 
 int	get_pixel_color(t_texture *tex, int x, int y)

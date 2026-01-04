@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 16:40:06 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/12/30 16:44:52 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2026/01/04 16:02:20 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_texture	*load_one_texture(void *mlx_ptr, char *path, t_texture *tex)
 			&tex->width, &tex->height);
 	if (!tex->img_ptr)
 	{
-		fprintf(stderr, "Error: Failed to load texture from %s\n", path);
+		printf("Error: Failed to load texture from %s\n", path);
 		return (NULL);
 	}
 	tex->img_data = mlx_get_data_addr(tex->img_ptr, &tex->bits_per_pixel,

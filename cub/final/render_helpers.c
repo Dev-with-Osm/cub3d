@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 16:47:11 by hoel-mos          #+#    #+#             */
-/*   Updated: 2026/01/02 21:03:14 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2026/01/04 17:34:07 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,6 @@ void	put_pixel_safe(t_game *game, int x, int y, int color)
 	*(int *)(game->img->img_data + offset) = color;
 }
 
-void	clear_image(t_game *game, int color)
-{
-	int	*pixels;
-	int	total;
-	int	i;
-
-	i = 0;
-	total = game->screenWidth * game->screenHeight;
-	pixels = (int *)game->img->img_data;
-	while (i < total)
-	{
-		pixels[i] = color;
-		i++;
-	}
-}
-
 int	apply_shading(int color, float distance, int side)
 {
 	float	brightness;
@@ -52,14 +36,11 @@ int	apply_shading(int color, float distance, int side)
 		brightness = 0.2f;
 	if (brightness > 1.0f)
 		brightness = 1.0f;
-	// Make one side darker
 	if (side == 1)
 		brightness *= 0.7f;
-	// Extract RGB
 	r = (color >> 16) & 0xFF;
 	g = (color >> 8) & 0xFF;
 	b = color & 0xFF;
-	// Apply brightness
 	r = (int)(r * brightness);
 	g = (int)(g * brightness);
 	b = (int)(b * brightness);

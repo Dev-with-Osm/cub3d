@@ -11,26 +11,13 @@
 # include <stdint.h>
 # include <stdlib.h>
 # include "get_next_line/get_next_line.h"
-#ifdef __APPLE__
-#include "mlx/mlx.h"
-#else
 # include <mlx.h>
 # include <X11/Xlib.h>
-#endif
 
 #define PI 3.14159265358979323846264338327950288
 #define NUM_RAYS 1500
 #define FOV_DEGREES 65
 #define tile 72
-#define WALL_HEIGHT_MULTIPLIER 1.0
-#define RED     0xFF0000
-#define GREEN   0x00FF00
-#define BLUE    0x0000FF
-#define WHITE   0xFFFFFF
-#define BLACK   0x000000
-#define GRAY    0x808080
-#define YELLOW  0xFFFF00
-#define PURPLE  0xFF00FF
 
 // --- KEY DEFINITIONS ---
 # define LINUX_KEY_ESC 65307
@@ -45,16 +32,15 @@
 # define KEY_RIGHT 65363
 # define TILE_SIZE 32
 
-#define screenH 768
-#define screenW 1520
+#define screenH 780
+#define screenW 1480
 #define NORTH 0
 #define SOUTH 1
 #define EAST  2
 #define WEST  3
 
-#define M_SPEED 0.04
+#define M_SPEED 0.03
 #define ROT_SPEED 0.04
-#define PLAYER_Z_HEIGHT 0.5
 
 typedef struct s_addr_lst
 {
@@ -157,24 +143,24 @@ typedef struct s_map
 
 typedef struct s_game
 {
-	t_map   *map;
-	t_wall *wall;
-	t_img *img;
-	t_ray *ray;
-	t_keys *keys;
-	t_time *tms;
-	t_dda *dda;
-	t_textures  *textures;
-	float           max_distance;
-	float           fov;
-	float           screenWidth;
-	float           camerax;
-	float           cameray;
-	float           screenHeight;
-	int             screen_x;
-	int             screen_y;
-	void            *wid_ptr;
-	void            *mlx_ptr;
+	t_map		*map;
+	t_wall		*wall;
+	t_img		*img;
+	t_ray		*ray;
+	t_keys		*keys;
+	t_time		*tms;
+	t_dda		*dda;
+	t_textures	*textures;
+	float		max_distance;
+	float		fov;
+	float		screenWidth;
+	float		camerax;
+	float		cameray;
+	float		screenHeight;
+	int			screen_x;
+	int			screen_y;
+	void		*wid_ptr;
+	void		*mlx_ptr;
 }           t_game;
 
 //############################PARSING##################################
@@ -260,8 +246,8 @@ int			apply_shading(int color, float distance, int side);
 // Texture functions
 int			load_textures(t_game *game, char **tex);
 t_texture   *load_texture(void *mlx_ptr, char *path);
-void        free_textures(t_game *game);
 int         get_pixel_color(t_texture *tex, int x, int y);
+void	free_mlx_textures(t_game *game);
 
 // MLX/Input functions
 void	    decide_side(int *side, int face);
@@ -270,16 +256,19 @@ int         key_press(int keycode, t_game *game);
 int         key_release(int keycode, t_game *game);
 int         close_window(t_game *game);
 void        put_pixel_safe(t_game *game, int x, int y, int color);
-void        clear_image(t_game *game, int color);
 
 // Movement
-void        handle_movement(t_game *game, float delta_time);
 int         is_wall(t_game *game, float x, float y);
 void        set_player_direction(char c, t_game *game);
 float       normalize_delta(float delta_time);
 float       calculate_move_angle(t_game *game, int forward, int strafe);
 void        apply_movement(t_game *game, float angle, float speed);
 void        apply_rotation(t_game *game, float rotation_speed);
+
+void	process_movement(t_game *game, float delta_time);
+// void	apply_movement(t_game *game, float angle, float speed);
+// void	apply_rotation(t_game *game, float rotation_speed);
+// float	normalize_delta(float delta_time);
 
 // Garbage collector
 void        *w_malloc(size_t size);
@@ -337,11 +326,7 @@ void				free_lines_buf(char **buf, int n);
 void				free_map_n(char **map, int h);
 
 int parsing(int argc, char **argv, t_game *game, t_config *cfg);
-//#####################################################
 
-void	free_mlx_textures(t_game *game);
-
-//####################################################
 size_t	ft_strlen(const char *s);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
 void	*ft_memcpy(void *dest, const void *src, size_t n);

@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 19:15:42 by hoel-mos          #+#    #+#             */
-/*   Updated: 2026/01/02 20:49:32 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2026/01/04 16:02:10 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	main(int ac, char **av)
 	game = w_malloc(sizeof(t_game));
 	if (!init_structs(game))
 	{
-		fprintf(stderr, "Error: Memory allocation failed\n");
+		printf("Error: Memory allocation failed\n");
 		return (ft_lstc(gc_list), 1);
 	}
 	if (parsing(ac, av, game, &cfg) == 1)
@@ -49,8 +49,8 @@ int	main(int ac, char **av)
 	extra_game_init(game);
 	if (!load_textures(game, cfg.tex))
 	{
-		fprintf(stderr, "Error: Failed to load textures\n");
-		free_textures(game);
+		printf("Error: Failed to load textures\n");
+		free_mlx_textures(game);
 		return (close_window(game), 1);
 	}
 	mlx_launch(game);
