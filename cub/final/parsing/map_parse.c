@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 11:57:23 by okhourss          #+#    #+#             */
-/*   Updated: 2025/12/30 11:29:01 by okhourss         ###   ########.fr       */
+/*   Updated: 2026/01/05 13:50:58 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	build_map(t_map *m, char ***buf, int n, t_build *o)
 	{
 		return (1);
 	}
-	m->player_angle = p.dir;
+	m->player_direction = p.dir;
 	o->px = p.x;
 	o->py = p.y;
 	if (closed_by_floodfill(m->map, o->w, o->h))

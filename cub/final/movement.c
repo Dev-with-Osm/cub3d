@@ -6,56 +6,11 @@
 /*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 16:59:02 by hoel-mos          #+#    #+#             */
-/*   Updated: 2026/01/04 15:39:20 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2026/01/04 18:51:12 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h" 
-
-void	movement_calculations(t_game *game, float *new_x, float *new_y, int sgn)
-{
-	if (sgn == 1)
-	{
-		*new_x = game->map->player_x + cos(game->map->player_angle) * M_SPEED;
-		*new_y = game->map->player_y + sin(game->map->player_angle) * M_SPEED;
-	}
-	else if (sgn == 2)
-	{
-		*new_x = game->map->player_x - cos(game->map->player_angle) * M_SPEED;
-		*new_y = game->map->player_y - sin(game->map->player_angle) * M_SPEED;
-	}
-	else if (sgn == 3)
-	{
-		*new_x = game->map->player_x + cos(game->map->player_angle - PI / 2)
-			* M_SPEED;
-		*new_y = game->map->player_y + sin(game->map->player_angle - PI / 2)
-			* M_SPEED;
-	}
-	else if (sgn == 4)
-	{
-		*new_x = game->map->player_x + cos(game->map->player_angle + PI / 2)
-			* M_SPEED;
-		*new_y = game->map->player_y + sin(game->map->player_angle + PI / 2)
-			* M_SPEED;
-	}
-}
-
-void	movement(t_game *game, float *new_x, float *new_y, int check_dir)
-{
-	if (check_dir == 1)
-		movement_calculations(game, new_x, new_x, 1);
-	else if (check_dir == 2)
-		movement_calculations(game, new_x, new_x, 2);
-	else if (check_dir == 3)
-		movement_calculations(game, new_x, new_x, 3);
-	else if (check_dir == 4)
-		movement_calculations(game, new_x, new_x, 4);
-	if (!is_wall(game, *new_x, *new_y))
-	{
-		game->map->player_x = *new_x;
-		game->map->player_y = *new_y;
-	}
-}
 
 void	process_movement(t_game *game, float delta_time)
 {

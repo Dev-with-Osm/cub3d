@@ -1,4 +1,15 @@
-// #include "parsing/parsing.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/05 13:53:03 by okhourss          #+#    #+#             */
+/*   Updated: 2026/01/05 13:54:43 by hoel-mos         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 unsigned int	rgb_to_hex(t_rgb c)
@@ -17,5 +28,6 @@ int	parsing(int argc, char **argv, t_game *game, t_config *cfg)
 	game->fov = 60 * PI / 180.0;
 	game->textures->ceiling_color = rgb_to_hex(cfg->ceil_rgb);
 	game->textures->floor_color = rgb_to_hex(cfg->floor_rgb);
+	set_player_direction(game->map->player_direction, game);
 	return (0);
 }

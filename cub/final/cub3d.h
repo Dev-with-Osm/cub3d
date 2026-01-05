@@ -15,9 +15,7 @@
 # include <X11/Xlib.h>
 
 #define PI 3.14159265358979323846264338327950288
-#define NUM_RAYS 1500
-#define FOV_DEGREES 65
-#define tile 72
+// #define FOV_DEGREES 65
 
 // --- KEY DEFINITIONS ---
 # define LINUX_KEY_ESC 65307
@@ -135,6 +133,7 @@ typedef struct s_map
 	float               player_x;
 	float               player_y;
 	float               player_angle;
+	char				player_direction;
 	int                 map_H;
 	int                 map_W;
 	char                **map;
