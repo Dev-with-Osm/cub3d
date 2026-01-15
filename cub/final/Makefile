@@ -3,7 +3,6 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 INCLUDES = -I.
 
-# Platform detection
 MLX_FLAGS = -L/usr/lib -lmlx -lXext -lX11 -lm
 
 SRCS = raycast.c render.c textures.c garbage_collector.c \
