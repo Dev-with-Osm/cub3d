@@ -51,8 +51,8 @@ typedef struct s_dda
 	int     dda_hit;
 	int     map_x;
 	int     map_y;
-	float   ray_dir_x;
-	float   ray_dir_y;
+	float   move_rate_x;
+	float   move_rate_y;
 	float   side_dist_x;
 	float   side_dist_y;
 	float   delta_dist_x;
@@ -115,8 +115,8 @@ typedef struct s_ray
 	float           ray_angle;
 	float           ray_x;
 	float           ray_y;
-	float           ray_dir_y;
-	float           ray_dir_x;
+	float           move_rate_y;
+	float           move_rate_x;
 } t_ray;
 
 typedef struct s_keys{

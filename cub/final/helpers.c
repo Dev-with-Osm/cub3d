@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 18:03:09 by hoel-mos          #+#    #+#             */
-/*   Updated: 2026/01/02 21:00:22 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2026/01/16 16:18:03 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 void	delta_distance(t_dda *dda, float angle)
 {
-	dda->ray_dir_x = cos(angle);
-	dda->ray_dir_y = sin(angle);
-	if (dda->ray_dir_x == 0)
+	dda->move_rate_x = cos(angle);
+	dda->move_rate_y = sin(angle);
+	if (dda->move_rate_x == 0)
 		dda->delta_dist_x = 1e30;
 	else
-		dda->delta_dist_x = fabs(1.0f / dda->ray_dir_x);
-	if (dda->ray_dir_y == 0)
+		dda->delta_dist_x = fabs(1.0f / dda->move_rate_x);
+	if (dda->move_rate_y == 0)
 		dda->delta_dist_y = 1e30;
 	else
-		dda->delta_dist_y = fabs(1.0f / dda->ray_dir_y);
+		dda->delta_dist_y = fabs(1.0f / dda->move_rate_y);
 }
 
 void	side_dist(t_game *game, t_dda *dda, int sign)

@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 16:49:40 by hoel-mos          #+#    #+#             */
-/*   Updated: 2026/01/02 21:00:12 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2026/01/16 16:18:03 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	init_ray(t_game *game, float angle, t_dda *dda)
 	delta_distance(dda, angle);
 	dda->map_x = (int)game->map->player_x;
 	dda->map_y = (int)game->map->player_y;
-	if (dda->ray_dir_x < 0)
+	if (dda->move_rate_x < 0)
 	{
 		dda->step_x = -1;
 		side_dist(game, dda, 0);
@@ -27,7 +27,7 @@ static void	init_ray(t_game *game, float angle, t_dda *dda)
 		dda->step_x = 1;
 		side_dist(game, dda, 1);
 	}
-	if (dda->ray_dir_y < 0)
+	if (dda->move_rate_y < 0)
 	{
 		dda->step_y = -1;
 		side_dist(game, dda, 2);
@@ -73,7 +73,7 @@ static void	calculate_wall_data(t_game *game, t_dda *dda, float distance)
 
 	if (dda->side == 0)
 	{
-		wall_hit = game->map->player_y + distance * dda->ray_dir_y;
+		wall_hit = game->map->player_y + distance * dda->move_rate_y;
 		if (dda->step_x > 0)
 			game->wall->wall_face = EAST;
 		else
@@ -81,7 +81,7 @@ static void	calculate_wall_data(t_game *game, t_dda *dda, float distance)
 	}
 	else
 	{
-		wall_hit = game->map->player_x + distance * dda->ray_dir_x;
+		wall_hit = game->map->player_x + distance * dda->move_rate_x;
 		if (dda->step_y > 0)
 			game->wall->wall_face = SOUTH;
 		else
