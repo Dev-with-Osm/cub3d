@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 16:47:11 by hoel-mos          #+#    #+#             */
-/*   Updated: 2026/01/04 17:34:07 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2026/01/17 18:07:40 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	put_pixel_safe(t_game *game, int x, int y, int color)
 {
 	int	offset;
 
-	if (x < 0 || x >= (int)game->screenWidth || y < 0
-		|| y >= (int)game->screenHeight)
+	if (x < 0 || x >= (int)game->screen_width || y < 0
+		|| y >= (int)game->screen_height)
 		return ;
 	offset = (y * game->img->line_length)
 		+ (x * (game->img->bits_per_pixel / 8));

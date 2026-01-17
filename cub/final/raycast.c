@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 16:49:40 by hoel-mos          #+#    #+#             */
-/*   Updated: 2026/01/16 16:18:03 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2026/01/17 18:06:36 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ static float	perform_dda(t_game *game, t_dda *dda)
 			dda->map_y += dda->step_y;
 			dda->side = 1;
 		}
-		if (dda->map_x < 0 || dda->map_x >= game->map->map_W
-			|| dda->map_y < 0 || dda->map_y >= game->map->map_H)
+		if (dda->map_x < 0 || dda->map_x >= game->map->map_width
+			|| dda->map_y < 0 || dda->map_y >= game->map->map_height)
 			return (game->max_distance);
 		if (game->map->map[dda->map_y][dda->map_x] == '1')
 			dda->dda_hit = 1;

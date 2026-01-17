@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 11:57:23 by okhourss          #+#    #+#             */
-/*   Updated: 2026/01/05 13:50:58 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2026/01/17 18:06:36 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,8 @@ int	parse_cub_file(const char *name, t_config *cfg, t_map *m)
 	if (build_map(m, &buf, n, &o))
 		return (1);
 	player_to_floor(m->map, o.px, o.py);
-	m->map_W = o.w;
-	m->map_H = o.h;
+	m->map_width = o.w;
+	m->map_height = o.h;
 	m->player_x = o.px + 0.5f;
 	m->player_y = o.py + 0.5f;
 	return (0);

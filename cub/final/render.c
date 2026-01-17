@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 16:45:16 by hoel-mos          #+#    #+#             */
-/*   Updated: 2026/01/02 21:02:44 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2026/01/17 18:07:40 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ void	rendering(t_game *game)
 
 	float (cos_correction), (camera_x), (ray_angle);
 	x = 0;
-	while (x < (int)game->screenWidth)
+	while (x < (int)game->screen_width)
 	{
-		camera_x = 2.0f * x / game->screenWidth - 1.0f;
+		camera_x = 2.0f * x / game->screen_width - 1.0f;
 		ray_angle = game->map->player_angle + atanf(camera_x
 				* tanf(game->fov / 2.0f));
 		game->ray->ray_angle = ray_angle;
@@ -42,9 +42,9 @@ void	rendering(t_game *game)
 		game->wall->wall_distance *= cos_correction;
 		if (game->wall->wall_distance < 0.1f)
 			game->wall->wall_distance = 0.1f;
-		game->wall->wall_height = game->screenHeight
+		game->wall->wall_height = game->screen_height
 			/ game->wall->wall_distance;
-		game->wall->wall_start = (game->screenHeight - game->wall->wall_height)
+		game->wall->wall_start = (game->screen_height - game->wall->wall_height)
 			/ 2.0f;
 		game->wall->wall_end = game->wall->wall_start + game->wall->wall_height;
 		draw_wall_column(game, x);

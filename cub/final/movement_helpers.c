@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 17:26:35 by hoel-mos          #+#    #+#             */
-/*   Updated: 2026/01/04 15:38:30 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2026/01/17 18:06:36 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	is_wall(t_game *game, float x, float y)
 
 	map_x = (int)x;
 	map_y = (int)y;
-	if (map_x < 0 || map_x >= game->map->map_W
-		|| map_y < 0 || map_y >= game->map->map_H)
+	if (map_x < 0 || map_x >= game->map->map_width
+		|| map_y < 0 || map_y >= game->map->map_height)
 		return (1);
 	return (game->map->map[map_y][map_x] == '1');
 }

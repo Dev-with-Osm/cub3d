@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   map_norm.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 11:11:22 by okhourss          #+#    #+#             */
-/*   Updated: 2025/12/30 10:15:52 by okhourss         ###   ########.fr       */
+/*   Updated: 2026/01/17 18:06:36 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-static int	max_map_w(char **map, int h)
+static int	max_map_width(char **map, int h)
 {
 	int	i;
 	int	mw;
@@ -30,7 +30,7 @@ static int	max_map_w(char **map, int h)
 	return (mw);
 }
 
-static int	pad_to_map_w(char **row, int w)
+static int	pad_to_map_width(char **row, int w)
 {
 	int		len;
 	char	*p;
@@ -52,11 +52,11 @@ int	pad_map(char ***map, int *h, int *w)
 {
 	int	i;
 
-	*w = max_map_w(*map, *h);
+	*w = max_map_width(*map, *h);
 	i = 0;
 	while (i < *h)
 	{
-		if (pad_to_map_w(&(*map)[i], *w))
+		if (pad_to_map_width(&(*map)[i], *w))
 			return (1);
 		i++;
 	}

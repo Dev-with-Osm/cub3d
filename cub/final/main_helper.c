@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 17:38:19 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/12/30 17:41:12 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2026/01/17 18:07:40 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_img	*create_image(t_game *game)
 	if (!img)
 		return (NULL);
 	img->img_ptr = mlx_new_image(game->mlx_ptr,
-			game->screenWidth, game->screenHeight);
+			game->screen_width, game->screen_height);
 	if (!img->img_ptr)
 		return (NULL);
 	img->img_data = mlx_get_data_addr(img->img_ptr, &img->bits_per_pixel,

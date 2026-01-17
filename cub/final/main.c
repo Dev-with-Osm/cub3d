@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 19:15:42 by hoel-mos          #+#    #+#             */
-/*   Updated: 2026/01/04 16:02:10 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2026/01/17 18:07:40 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 void	extra_game_init(t_game *game)
 {
 	game->mlx_ptr = mlx_init();
-	game->max_distance = sqrt(game->screenHeight * game->screenHeight
-			+ game->screenWidth * game->screenWidth);
-	game->wid_ptr = mlx_new_window(game->mlx_ptr, game->screenWidth,
-			game->screenHeight, "CUB3D");
+	game->max_distance = sqrt(game->screen_height * game->screen_height
+			+ game->screen_width * game->screen_width);
+	game->wid_ptr = mlx_new_window(game->mlx_ptr, game->screen_width,
+			game->screen_height, "CUB3D");
 	game->img = create_image(game);
 }
 

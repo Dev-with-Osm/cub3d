@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 16:36:43 by hoel-mos          #+#    #+#             */
-/*   Updated: 2026/01/02 20:44:14 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2026/01/17 18:07:40 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	get_draw_boundaries(t_game *game)
 	game->wall->draw_end = (int)game->wall->wall_end;
 	if (game->wall->draw_start < 0)
 		game->wall->draw_start = 0;
-	if (game->wall->draw_end > (int)game->screenHeight)
-		game->wall->draw_end = (int)game->screenHeight;
+	if (game->wall->draw_end > (int)game->screen_height)
+		game->wall->draw_end = (int)game->screen_height;
 }
 
 static float	init_texture_pos(t_game *game, t_texture *tex)

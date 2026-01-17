@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 18:13:47 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/12/30 18:15:14 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2026/01/17 18:07:40 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	draw_floor(t_game *game, int x, int wall_end)
 
 	color = game->textures->floor_color;
 	y = wall_end;
-	while (y < (int)game->screenHeight)
+	while (y < (int)game->screen_height)
 	{
 		put_pixel_safe(game, x, y, color);
 		y++;
